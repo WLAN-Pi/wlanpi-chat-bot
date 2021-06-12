@@ -14,6 +14,7 @@ else
     echo "Installing WLAN Pi Chat bot..."
     sudo mkdir -p $BASEDIR
     sudo cp wlanpi-chat-bot $BASEDIR
+    sudo cp version.txt $BASEDIR
 
     sudo cp -R ./transports $BASEDIR
     sudo cp -R ./utils $BASEDIR
