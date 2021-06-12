@@ -16,16 +16,16 @@ cd /home/wlanpi
 sudo git clone https://github.com/WLAN-Pi/wlanpi-telegram-bot.git
 
 # change in to the new code directory
-cd wlanpi-telegram-bot.git
+cd wlanpi-telegram-bot
 
 # run the install script
 ./install.sh
 
 # add in the bot key to the configuration file (update the "bot_token" field)
-nano /opt/wlanpi/wlanpi-chat-bot/config.json
+nano /opt/wlanpi-chat-bot/etc/config.json
 
 # start the bot service
-sudo systemctl start wlanpi-chat-bot.service
+sudo systemctl restart wlanpi-chat-bot.service
 
 # check the service status
 sudo systemctl status wlanpi-chat-bot.service
@@ -41,7 +41,7 @@ cd /home/wlanpi/wlanpi-telegram-bot
 
 # remove existing source files
 cd ..
-rm -rf ./wlanpi-chat-bot
+rm -rf ./wlanpi-telegram-bot
 
 ```
 
