@@ -79,5 +79,5 @@ To see the list of commands available, type `help` or `?` when sending messages 
 2. The start-up message from the WLAN Pi is not seen the first time that the bot service is run (as the chat ID has not yet been derived). This is a one-time issue.
 3. Logging levels are "info" by default and logging is sent to syslog
 
-
+![Screenshot](images/screenshot.png)
 
