@@ -1,0 +1,8 @@
+{
+    "telegram": {
+        "bot_token": "",
+        "chat_id": "",
+        "display_mode": "full",
+        "display_width": "30"
+    }
+}

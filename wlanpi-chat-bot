@@ -1,0 +1,132 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+"""
+A chatbot to receive commands to perform various WLAN Pi operations and 
+retrieve status information.
+
+This work is based upon the excellent article and code provided by Gareth
+Dwyer in his blog article "Building a Chatbot using Telegram and Python (Part 1)".
+
+You can find the article at: 
+
+https://www.codementor.io/@garethdwyer/building-a-telegram-bot-using-python-part-1-goi5fncay
+
+Thank you Gareth.
+"""
+import json
+import logging
+import requests
+import time
+import urllib
+from pprint import pprint
+import os
+
+
+from transports.telegram_comms import TelegramComms
+from wlanpi_commands.command import Command
+from wlanpi_commands.command import register_commands
+from utils.node_data_snapshot import DataSnapshot
+from utils.parser import parse_cmd
+from utils.status import get_status
+
+from utils.config import Config
+
+logging.basicConfig(level=logging.INFO)
+
+long_polling_timeout = 100
+
+# read in local node config info
+conf_obj = Config()
+conf_obj.read_config()
+
+# Telegram info
+api_key = conf_obj.config['telegram']["bot_token"]
+chat_id = False # we may not know our chat_id initially...
+
+t = TelegramComms(api_key)
+
+# register all commands ready to use later
+GLOBAL_CMD_DICT = register_commands(t, conf_obj)
+
+if "chat_id" in conf_obj.config['telegram'].keys():
+    chat_id = conf_obj.config['telegram']["chat_id"]
+
+    # send probe startup status message
+    startup_msg = get_status()
+
+    if startup_msg:
+        t.send_msg(startup_msg, chat_id, encode=False)
+
+def main():
+    last_update_id = None
+
+    # event loop
+    while True:
+
+        # get updates from the Telegram bot
+        # (Note we're using long polling, which is an extended http timeout to avoid 
+        # use of rapid upstream polling of Telegram bot to check for new messages)
+        #
+        # Pass the ID of last rec'd message to ack message and stop it being sent again
+        updates = t.get_updates(last_update_id)
+
+        # report on node status if this is a reboot or something changed
+        snapshot = DataSnapshot()
+        status_update = snapshot.node_status()
+
+        if status_update and chat_id:
+            t.send_msg(status_update, chat_id)
+
+        # if we have a message to process, lets take action
+        if len(updates["result"]) > 0:
+            last_update_id = t.get_last_update_id(updates) + 1
+
+            # slice out the last msg (in the case of multipe msgs being sent)
+            update = updates['result'][-1]
+
+            # extract the message text
+            if "message" in update.keys():
+                text = str(update["message"]["text"]).strip()
+            else:
+                continue
+
+            # extract the chat ID for our response
+            chat = update["message"]["chat"]["id"]
+
+            # if we don't have a global chat_id already, write it to the config file
+            if not chat_id:
+                conf_obj.config['telegram']["chat_id"] = chat
+                conf_obj.update_config()
+
+            # normalize text case
+            text = text.lower()
+            # cleanup whitespace (inc trailing & leading space)
+            text = ' '.join(text.split())
+
+            # get list of available commands
+            command_list = list(GLOBAL_CMD_DICT.keys())
+            command_list.sort()
+
+            # parse command and expand any shortening of verbs (run, show, set, exec)
+            [command, args_list] = parse_cmd(text, command_list)
+            
+            msg = "blank"
+            encode = True
+            if text == 'help' or text == "?":
+                msg = ['Available commands:\n']
+                fixed_command_list = [e.replace("_", " ") for e in command_list]
+                msg = msg + fixed_command_list + ["(Type 'info' for startup status msg)"]
+            elif text in [ "in", "inf", "info"]:
+                msg = get_status()
+                encode = False
+            elif command in command_list:
+                msg = GLOBAL_CMD_DICT[command].run(args_list)
+            else:
+                msg = 'Unknown command (try "help" command)'
+
+            logging.debug("Send status data to Telegram")
+            t.send_msg(msg, chat, encode=encode)
+
+
+if __name__ == '__main__':
+    main()

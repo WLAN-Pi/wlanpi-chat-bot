@@ -1,0 +1,8 @@
+[Unit]
+Description=WLAN Pi Chat Bot
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/wlanpi-chat-bot/wlanpi-chat-bot
+
+[Install]
+WantedBy=multi-user.target
