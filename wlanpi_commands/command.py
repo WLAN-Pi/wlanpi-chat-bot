@@ -113,6 +113,7 @@ class Command():
 from .set_display_mode import SetDisplayMode
 from .set_display_width import SetDisplayWidth
 from .show_time import ShowTime
+from .show_uptime import ShowUptime
 from .show_cdp import ShowCDP
 from .show_publicip import ShowPublicip
 from .show_reachability import ShowReachability
