@@ -4,8 +4,6 @@
 import requests
 from requests.exceptions import HTTPError
 import logging
-import time
-import requests
 import urllib
 import json
 
@@ -80,17 +78,27 @@ class TelegramComms(object):
         
         return True
     
-    # TODO: add error check
     def get_url(self, url):
-        response = requests.get(url)
-        content = response.content.decode("utf8")
-        return content
 
+        content = False
+
+        try:
+            response = requests.get(url)
+            content = response.content.decode("utf8")
+        except Exception as err:
+            self.err_msg = f'URL retrieval error: {err}'
+            class_logger.error(self.err_msg)
+
+        return content
 
     def get_json_from_url(self, url):
         content = self.get_url(url)
-        js = json.loads(content)
-        return js
+
+        if content:
+            js = json.loads(content)
+            return js
+        else:
+            return False
 
 
     def get_updates(self, offset=None):
