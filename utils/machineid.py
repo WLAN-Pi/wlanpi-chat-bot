@@ -13,7 +13,7 @@ class_logger = logging.getLogger('MachineId')
 class MachineId(object):
 
     '''
-    A class to pull a remote config file from a http site
+    A class to figure out the unique machine ID of a probe
     '''
 
     def __init__(self, machine_id_file = '/etc/machine-id'):
