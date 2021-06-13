@@ -1,6 +1,7 @@
 from .command import Command
 import os
 import subprocess
+from utils.emojis import graph
 
 class ExecSpeedtest(Command):
     
@@ -13,7 +14,7 @@ class ExecSpeedtest(Command):
 
         # send status msg  
         chat_id = self.telegram_object.chat_id
-        self.telegram_object.send_msg("Running speedtest...please wait", chat_id)
+        self.telegram_object.send_msg("{} Running speedtest...please wait".format(graph()), chat_id)
 
         # perform speedtest
         speedtest_info = []

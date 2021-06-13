@@ -28,6 +28,7 @@ from wlanpi_commands.command import register_commands
 from utils.node_data_snapshot import DataSnapshot
 from utils.parser import parse_cmd
 from utils.status import get_status
+from utils.emojis import cats
 
 from utils.config import Config
 
@@ -116,6 +117,8 @@ def main():
                 msg = ['Available commands:\n']
                 fixed_command_list = [e.replace("_", " ") for e in command_list]
                 msg = msg + fixed_command_list + ["(Type 'info' for startup status msg)"]
+            elif text == "cats":
+                msg = cats(100)
             elif text in [ "in", "inf", "info"]:
                 msg = get_status()
                 encode = False
