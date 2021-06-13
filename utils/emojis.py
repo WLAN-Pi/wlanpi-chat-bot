@@ -24,3 +24,9 @@ def bar_chart(number=1):
 
 def right_arrow(number=1):
     return "\U000027A1 "  * number
+
+def hour_glass(number=1):
+    return "\U000023F3 "  * number
+
+def hour_glass_done(number=1):
+    return "\U0000231B "  * number
