@@ -52,11 +52,10 @@ The following commands are available from the Telegram bot to gather info from t
 ```
 Available commands:
 
-exec iperf
-exec iperf3
-exec ping
-exec reboot
-exec speedtest
+iperf
+iperf3
+ping
+reboot
 set display mode
 set display width
 show cdp
@@ -67,7 +66,10 @@ show reachability
 show status
 show summary
 show time
+show uptime
 show ver
+speedtest
+
 (Type 'info' for startup status msg)
 ```
 
