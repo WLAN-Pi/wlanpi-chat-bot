@@ -2,12 +2,12 @@ from .command import Command
 import os
 import subprocess
 
-class ExecIperf(Command):
+class Iperf(Command):
     
     def __init__(self, telegram_object, conf_obj):
         super().__init__(telegram_object, conf_obj)
 
-        self.command_name = "exec_iperf"
+        self.command_name = "iperf"
     
     def run(self, args_list):      
 

@@ -2,12 +2,12 @@ from .command import Command
 import os
 import subprocess
 
-class ExecPing(Command):
+class Ping(Command):
     
     def __init__(self, telegram_object, conf_obj):
         super().__init__(telegram_object, conf_obj)
 
-        self.command_name = "exec_ping"
+        self.command_name = "ping"
     
     def run(self, args_list):
 

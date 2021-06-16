@@ -3,12 +3,12 @@ import os
 import subprocess
 from utils.emojis import graph, hour_glass
 
-class ExecSpeedtest(Command):
+class Speedtest(Command):
     
     def __init__(self, telegram_object, conf_obj):
         super().__init__(telegram_object, conf_obj)
 
-        self.command_name = "exec_speedtest"
+        self.command_name = "speedtest"
     
     def run(self, args_list):
 

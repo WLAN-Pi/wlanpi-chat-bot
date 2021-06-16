@@ -120,11 +120,11 @@ from .show_reachability import ShowReachability
 from .show_lldp import ShowLLDP
 from .show_summary import ShowSummary
 from .show_mode import ShowMode
-from .exec_reboot import ExecReboot
-from .exec_iperf import ExecIperf
-from .exec_iperf3 import ExecIperf3
-from .exec_ping import ExecPing
-from .exec_speedtest import ExecSpeedtest
+from .reboot import Reboot
+from .iperf import Iperf
+from .iperf3 import Iperf3
+from .ping import Ping
+from .speedtest import Speedtest
 from .show_status import ShowStatus
 from .show_version import ShowVersion
 

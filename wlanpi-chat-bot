@@ -113,13 +113,16 @@ def main():
             
             msg = "blank"
             encode = True
+            
             if text == 'help' or text == "?":
                 msg = ['Available commands:\n']
                 fixed_command_list = [e.replace("_", " ") for e in command_list]
                 msg = msg + fixed_command_list + ["(Type 'info' for startup status msg)"]
             elif text == "cats":
+                # inevitable easter egg
                 msg = cats(100)
             elif text in [ "in", "inf", "info"]:
+                # show boot msg
                 msg = get_status()
                 encode = False
             elif command in command_list:
