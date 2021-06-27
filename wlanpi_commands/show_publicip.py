@@ -9,6 +9,6 @@ class ShowPublicip(Command):
        
     def run(self, args_list):      
 
-        progress_msg = "Getting Public IP..."
+        progress_msg = "Getting public IP..."
         cmd_string = "/usr/share/fpms/BakeBit/Software/Python/scripts/networkinfo/publicip.sh"
         return self._render(self.run_ext_cmd(progress_msg,cmd_string))
