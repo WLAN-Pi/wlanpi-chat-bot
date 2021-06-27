@@ -1,0 +1,14 @@
+Source: wlanpi-chat-bot
+Section: embedded
+Priority: extra
+Maintainer: Jiri Brejcha <jirka@jiribrejcha.net>
+Build-Depends: debhelper (>=9), build-essential
+Standards-Version: 3.9.8
+Homepage: https://github.com/WLAN-Pi/wlanpi-telegram-bot
+
+Package: wlanpi-chat-bot
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Chat Bot for the WLAN Pi
+ This chat bot provides remote management for the WLAN Pi. It receives commands and returns output and files using Telegram and pontentially other IM services.

@@ -1,0 +1,5 @@
+wlanpi-chat-bot (1.0.0) unstable; urgency=medium
+
+  * Debianize package
+
+ -- Jiri Brejcha <jirka@jiribrejcha.net>  Wed, 23 Jun 2021 12:33:46 +0000
