@@ -9,6 +9,6 @@ class ShowMode(Command):
     
     def run(self, args_list):
         STATUS_FILE="/etc/wlanpi-state"
-        status = "Probe mode: {}".format(self._read_file( STATUS_FILE)[0])
+        status = "WLAN Pi mode: {}".format(self._read_file( STATUS_FILE)[0])
         return self._render(status.strip())
 
