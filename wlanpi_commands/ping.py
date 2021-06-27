@@ -19,6 +19,6 @@ class Ping(Command):
         else:
             return self._render("Unable to run test, no IP address passed (syntax : exec ping &lt;ip_address&gt;)")
 
-        progress_msg = "Runing ping test..."
+        progress_msg = "Running ping test..."
         cmd_string = "{} -c 10 -W 1 -i 0.2 {} 2>&1".format(PING, target_ip) 
         return self._render(self.run_ext_cmd(progress_msg,cmd_string))
