@@ -173,15 +173,15 @@ class DataSnapshot(object):
             if name == 'lo':
                 continue
 
-            ip_addresses.append(f" {name} : {ip}")
+            ip_addresses.append(f" {name}: {ip}")
 
         # Construct message to send
         now = time.ctime()
         messages = [
-            f"{now}", 
+            f"Time: {now}", 
             f"Hostname: {hostname}", 
             f"Uptime: {uptime}",
-            f"Unit Status: {unit_status}",
+            f"Unit status: {unit_status}",
             '\nInterfaces: '] + ip_addresses
         
         return messages
