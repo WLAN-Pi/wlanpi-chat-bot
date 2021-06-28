@@ -16,7 +16,7 @@ clean:
 distclean: clean
 
 uninstall:
-	-rm -rf $(DESTDIR)$(BASEDIR)
 	-rm -rf $(DESTDIR)/lib/systemd/system/wlanpi-chat-bot.service
+	-rm -rf $(DESTDIR)$(BASEDIR)
 
 .PHONY: all install clean distclean uninstall

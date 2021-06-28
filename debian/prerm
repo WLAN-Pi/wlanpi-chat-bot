@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "Stopping WLAN Pi Chat Bot service"
+systemctl stop wlanpi-chat-bot.service
+
+echo "Removing installation directory"
+rm -rf /opt/wlanpi-chat-bot
