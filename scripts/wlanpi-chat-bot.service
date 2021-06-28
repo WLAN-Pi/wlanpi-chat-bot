@@ -2,6 +2,7 @@
 Description=WLAN Pi Chat Bot
 
 [Service]
+ExecStartPre=/bin/bash -c '(while ! nc -z -v -w1 api.telegram.org 443 2>/dev/null; do echo "Waiting for port 443 to open..."; sleep 2; done)'
 ExecStart=/usr/bin/python3 /opt/wlanpi-chat-bot/wlanpi-chat-bot
 
 [Install]
