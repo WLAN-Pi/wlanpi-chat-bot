@@ -33,6 +33,7 @@ from utils.emojis import cats
 from utils.config import Config
 
 logging.basicConfig(level=logging.INFO)
+script_logger = logging.getLogger('TelegramAlert')
 
 long_polling_timeout = 100
 
@@ -79,7 +80,7 @@ def main():
             t.send_msg(status_update, chat_id)
 
         # if we have a message to process, lets take action
-        if len(updates["result"]) > 0:
+        if updates and  (len(updates["result"]) > 0):
             last_update_id = t.get_last_update_id(updates) + 1
 
             # slice out the last msg (in the case of multipe msgs being sent)
@@ -132,6 +133,10 @@ def main():
 
             logging.debug("Send status data to Telegram")
             t.send_msg(msg, chat, encode=encode)
+        else:
+            # we likely had a connectivity issue of some type....lets sleep
+            script_logger.error("Looks like we possibly have a network connectivity issue. Sleeping before we try again.")
+            time.sleep(5)
 
 
 if __name__ == '__main__':

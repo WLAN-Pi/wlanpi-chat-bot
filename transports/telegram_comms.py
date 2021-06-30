@@ -86,7 +86,7 @@ class TelegramComms(object):
             response = requests.get(url)
             content = response.content.decode("utf8")
         except Exception as err:
-            self.err_msg = f'URL retrieval error: {err}'
+            self.err_msg = f'URL retrieval error: {err} (Network connectivity issue?)'
             class_logger.error(self.err_msg)
 
         return content
