@@ -1,6 +1,8 @@
 #!/bin/bash
-echo "Stopping WLAN Pi Chat Bot service"
+echo "Stopping Chat Bot service"
 systemctl stop wlanpi-chat-bot.service
+systemctl reset-failed
 
-echo "Removing installation directory"
-rm -rf /opt/wlanpi-chat-bot
+# Removes __pycache__ folders and .pyc files which prevent full uninstallation and Chat Bot folder deletion
+echo "Cleaning up Chat Bot directory, keeping config file"
+find /opt/wlanpi-chat-bot -mindepth 1 ! -regex '^/opt/wlanpi-chat-bot/etc\(/.*\)?' -delete
