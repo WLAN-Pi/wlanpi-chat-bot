@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Cleaning up services"
+systemctl unmask wlanpi-chat-bot.service
+systemctl daemon-reload
+

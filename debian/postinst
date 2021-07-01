@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Starting Chat Bot service"
+systemctl daemon-reload
+systemctl start wlanpi-chat-bot
+
+echo ""
+echo "Enter your API key:"
+echo "sudo nano /opt/wlanpi-chat-bot/etc/config.json"
