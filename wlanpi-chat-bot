@@ -73,9 +73,6 @@ def main():
         # Pass the ID of last rec'd message to ack message and stop it being sent again
         updates = t.get_updates(last_update_id)
 
-        if status_update and chat_id:
-            t.send_msg(status_update, chat_id)
-
         # if we have a message to process, lets take action
         if updates and  (len(updates["result"]) > 0):
 
@@ -93,6 +90,9 @@ def main():
             # report on node status if this is a reboot or something changed
             snapshot = DataSnapshot()
             status_update = snapshot.node_status()
+
+            if status_update and chat_id:
+                t.send_msg(status_update, chat_id)
 
             last_update_id = t.get_last_update_id(updates) + 1
 
