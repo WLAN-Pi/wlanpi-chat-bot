@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-def cats(number=1):
+def cats(number=100):
     return "\U0001F431 " * number
 
 def green_circle(number=1):
@@ -30,3 +30,6 @@ def hour_glass(number=1):
 
 def hour_glass_done(number=1):
     return "\U0000231B "  * number
+
+def cool(number=1):
+    return "\U0001F60E " * number

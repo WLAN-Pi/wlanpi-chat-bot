@@ -28,13 +28,13 @@ from wlanpi_commands.command import register_commands
 from utils.node_data_snapshot import DataSnapshot
 from utils.parser import parse_cmd
 from utils.status import get_status
-from utils.emojis import cats
 from utils.check_telegram_available import CheckTelegram
-
 from utils.config import Config
+import utils.useful
 
 logging.basicConfig(level=logging.INFO)
 script_logger = logging.getLogger('TelegramAlert')
+#script_logger.setLevel(logging.DEBUG)
 
 long_polling_timeout = 100
 
@@ -57,8 +57,6 @@ GLOBAL_CMD_DICT = register_commands(t, conf_obj)
 if "chat_id" in conf_obj.config['telegram'].keys():
     chat_id = conf_obj.config['telegram']["chat_id"]
 
-script_logger.info("Starting main.")
-
 def main():
     last_update_id = None
     online = False # start assuming offline
@@ -72,7 +70,7 @@ def main():
 
             # if we have been offline (or this is startup) send boot status
             if online == False:
-                script_logger.debug("We were offline, but we're back online.")
+                script_logger.info("We were offline, but we're back online.")
 
                 # send probe startup status message (as we must now be back online)
                 startup_msg = get_status()
@@ -134,14 +132,13 @@ def main():
                 
                 msg = "blank"
                 encode = True
-                
+
                 if text == 'help' or text == "?":
                     msg = ['Available commands:\n']
                     fixed_command_list = [e.replace("_", " ") for e in command_list]
                     msg = msg + fixed_command_list + ["(Type 'info' for startup status msg)"]
-                elif text == "cats":
-                    # inevitable easter egg
-                    msg = cats(100)
+                elif text in utils.useful.cmds.keys():
+                    msg = utils.useful.cmds[text]()
                 elif text in [ "in", "inf", "info"]:
                     # show boot msg
                     msg = get_status()
