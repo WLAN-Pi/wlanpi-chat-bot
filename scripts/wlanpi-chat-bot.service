@@ -3,7 +3,7 @@ Description=WLAN Pi Chat Bot
 
 [Service]
 TimeoutStartSec=3600
-ExecStartPre=/bin/bash -c '(while ! nc -z -v -w1 api.telegram.org 443 >/dev/null 2>&1; do sleep 2; done)'
+#ExecStartPre=/bin/bash -c '(while ! nc -z -v -w1 api.telegram.org 443 >/dev/null 2>&1; do sleep 2; done)'
 ExecStart=/usr/bin/python3 /opt/wlanpi-chat-bot/wlanpi-chat-bot
 
 [Install]
