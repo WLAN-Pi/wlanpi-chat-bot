@@ -29,6 +29,7 @@ from utils.node_data_snapshot import DataSnapshot
 from utils.parser import parse_cmd
 from utils.status import get_status
 from utils.emojis import cats
+from utils.check_telegram_available import CheckTelegram
 
 from utils.config import Config
 
@@ -47,37 +48,31 @@ chat_id = False # we may not know our chat_id initially...
 
 t = TelegramComms(api_key)
 
+# Create Telegram network connection checker
+tc = CheckTelegram()
+
 # register all commands ready to use later
 GLOBAL_CMD_DICT = register_commands(t, conf_obj)
 
 if "chat_id" in conf_obj.config['telegram'].keys():
     chat_id = conf_obj.config['telegram']["chat_id"]
 
-    # send probe startup status message
-    startup_msg = get_status()
-
-    if startup_msg:
-        t.send_msg(startup_msg, chat_id, encode=False)
+script_logger.info("Starting main.")
 
 def main():
     last_update_id = None
-    online = False
+    online = False # start assuming offline
 
     # event loop
     while True:
 
-        # get updates from the Telegram bot
-        # (Note we're using long polling, which is an extended http timeout to avoid 
-        # use of rapid upstream polling of Telegram bot to check for new messages)
-        #
-        # Pass the ID of last rec'd message to ack message and stop it being sent again
-        updates = t.get_updates(last_update_id)
-
-        # if we have a message to process, lets take action
-        if updates and  (len(updates["result"]) > 0):
+        # check we're online to Telegram
+        if tc.check_telegram_available():
+            script_logger.debug("We're online.")
 
             # if we have been offline (or this is startup) send boot status
             if online == False:
+                script_logger.debug("We were offline, but we're back online.")
 
                 # send probe startup status message (as we must now be back online)
                 startup_msg = get_status()
@@ -85,70 +80,83 @@ def main():
                 if startup_msg:
                     t.send_msg(startup_msg, chat_id, encode=False)
                 
-                online = True
+                online = True # signal that we are back online
 
-            # report on node status if this is a reboot or something changed
+            # report on probe status if this is a reboot or something changed
             snapshot = DataSnapshot()
             status_update = snapshot.node_status()
 
+
+            # get updates from the Telegram bot
+            # (Note we're using long polling, which is an extended http timeout to avoid 
+            # use of rapid upstream polling of Telegram bot to check for new messages)
+            #
+            # Pass the ID of last rec'd message to ack message and stop it being sent again
+            updates = t.get_updates(last_update_id)
+
+            # send a probe status update if required (i.e. something changed)
             if status_update and chat_id:
                 t.send_msg(status_update, chat_id)
 
-            last_update_id = t.get_last_update_id(updates) + 1
+            # if we have a message to process, lets take action
+            if updates and  (len(updates["result"]) > 0):             
 
-            # slice out the last msg (in the case of multipe msgs being sent)
-            update = updates['result'][-1]
+                last_update_id = t.get_last_update_id(updates) + 1
 
-            # extract the message text
-            if "message" in update.keys():
-                text = str(update["message"]["text"]).strip()
-            else:
-                continue
+                # slice out the last msg (in the case of multipe msgs being sent)
+                update = updates['result'][-1]
 
-            # extract the chat ID for our response
-            chat = update["message"]["chat"]["id"]
+                # extract the message text
+                if "message" in update.keys():
+                    text = str(update["message"]["text"]).strip()
+                else:
+                    continue
 
-            # if we don't have a global chat_id already, write it to the config file
-            if not chat_id:
-                conf_obj.config['telegram']["chat_id"] = chat
-                conf_obj.update_config()
+                # extract the chat ID for our response
+                chat = update["message"]["chat"]["id"]
 
-            # normalize text case
-            text = text.lower()
-            # cleanup whitespace (inc trailing & leading space)
-            text = ' '.join(text.split())
+                # if we don't have a global chat_id already, write it to the config file
+                if not chat_id:
+                    conf_obj.config['telegram']["chat_id"] = chat
+                    conf_obj.update_config()
 
-            # get list of available commands
-            command_list = list(GLOBAL_CMD_DICT.keys())
-            command_list.sort()
+                # normalize text case
+                text = text.lower()
+                # cleanup whitespace (inc trailing & leading space)
+                text = ' '.join(text.split())
 
-            # parse command and expand any shortening of verbs (run, show, set, exec)
-            [command, args_list] = parse_cmd(text, command_list)
-            
-            msg = "blank"
-            encode = True
-            
-            if text == 'help' or text == "?":
-                msg = ['Available commands:\n']
-                fixed_command_list = [e.replace("_", " ") for e in command_list]
-                msg = msg + fixed_command_list + ["(Type 'info' for startup status msg)"]
-            elif text == "cats":
-                # inevitable easter egg
-                msg = cats(100)
-            elif text in [ "in", "inf", "info"]:
-                # show boot msg
-                msg = get_status()
-                encode = False
-            elif command in command_list:
-                msg = GLOBAL_CMD_DICT[command].run(args_list)
-            else:
-                msg = 'Unknown command (try "help" command)'
+                # get list of available commands
+                command_list = list(GLOBAL_CMD_DICT.keys())
+                command_list.sort()
 
-            logging.debug("Send status data to Telegram")
-            t.send_msg(msg, chat, encode=encode)
+                # parse command and expand any shortening of verbs (run, show, set, exec)
+                [command, args_list] = parse_cmd(text, command_list)
+                
+                msg = "blank"
+                encode = True
+                
+                if text == 'help' or text == "?":
+                    msg = ['Available commands:\n']
+                    fixed_command_list = [e.replace("_", " ") for e in command_list]
+                    msg = msg + fixed_command_list + ["(Type 'info' for startup status msg)"]
+                elif text == "cats":
+                    # inevitable easter egg
+                    msg = cats(100)
+                elif text in [ "in", "inf", "info"]:
+                    # show boot msg
+                    msg = get_status()
+                    encode = False
+                elif command in command_list:
+                    msg = GLOBAL_CMD_DICT[command].run(args_list)
+                else:
+                    msg = 'Unknown command (try "help" command)'
+
+                logging.debug("Send status data to Telegram")
+                t.send_msg(msg, chat, encode=encode)
         else:
             # we likely had a connectivity issue of some type....lets sleep
-            script_logger.error("Looks like we possibly have a network connectivity issue. Sleeping before we try again.")
+            print("We're offline")
+            script_logger.error("We have a network connectivity issue. Sleeping before we try again.")
             online = False
             time.sleep(30)
 
