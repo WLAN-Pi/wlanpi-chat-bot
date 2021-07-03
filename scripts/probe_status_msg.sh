@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #Author: Jiri Brejcha, jirka@jiribrejcha.net
 #Sends current WLAN Pi IP address and other useful details to you in a Telegram message. Requires internet connection.
