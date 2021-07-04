@@ -33,3 +33,19 @@ class Speedtest(Command):
             speedtest_info.append("No output sorry")
 
         return self._render(speedtest_info)
+    
+    def help(self):
+        """
+        Return the help page for this command
+        """
+        short_msg = "Run an Ookla speedtest from probe."
+        long_msg = """Speedtest: This command runs a spedtest to the Ookla speedtest service from the probe.
+
+It provides the upload and download speed from the probe to the Internet. 
+
+(This test requires your probe to have Internet access)"""
+
+        if self.display_mode == "compact":
+            return short_msg
+        else:
+            return long_msg

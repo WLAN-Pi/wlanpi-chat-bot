@@ -33,3 +33,9 @@ def hour_glass_done(number=1):
 
 def cool(number=1):
     return "\U0001F60E " * number
+
+def beer(number=1):
+    return "\U0001F37A " * number
+
+def coffee(number=1):
+    return "\U00002615 "  * number
