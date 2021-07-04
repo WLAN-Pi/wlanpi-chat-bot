@@ -1,4 +1,4 @@
-# wlanpi-telegram-bot
+# wlanpi-chat-bot
 
 Telegram bot for the WLAN Pi project
 
@@ -13,10 +13,10 @@ To install the code, from the WLAN Pi CLI, execute the following commands:
 cd /home/wlanpi
 
 # pull the code from GitHub
-sudo git clone https://github.com/WLAN-Pi/wlanpi-telegram-bot.git
+sudo git clone https://github.com/WLAN-Pi/wlanpi-chat-bot.git
 
 # change in to the new code directory
-cd wlanpi-telegram-bot
+cd wlanpi-chat-bot
 
 # run the install script
 ./install.sh
@@ -34,20 +34,20 @@ sudo systemctl status wlanpi-chat-bot.service
 To remove the code and pull in a newer version execute the following commands and then repeat the steps above
 
 ```
-cd /home/wlanpi/wlanpi-telegram-bot
+cd /home/wlanpi/wlanpi-chat-bot
 
 # run the de-install script
 ./install.sh -r
 
 # remove existing source files
 cd ..
-rm -rf ./wlanpi-telegram-bot
+rm -rf ./wlanpi-chat-bot
 
 ```
 
 # Commands
 
-The following commands are available from the Telegram bot to gather info from the WLAN Pi or initiate actions:
+The following commands are available from the chat bot to gather info from the WLAN Pi or initiate actions:
 
 ```
 Available commands:
@@ -77,7 +77,7 @@ To see the list of commands available, type `help` or `?` when sending messages 
 
 # Notes
 
-1. Without a bot key configured, the service will not currently start.
+1. Without a Telegram bot key configured, the service will not currently start.
 2. The start-up message from the WLAN Pi is not seen the first time that the bot service is run (as the chat ID has not yet been derived). This is a one-time issue.
 3. Logging levels are "info" by default and logging is sent to syslog
 
