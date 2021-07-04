@@ -1,6 +1,6 @@
 # wlanpi-chat-bot
 
-Telegram bot for the WLAN Pi project
+Chat bot for the WLAN Pi project
 
 *** Note that this code is still under development ***
 
