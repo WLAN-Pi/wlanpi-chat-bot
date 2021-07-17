@@ -84,6 +84,10 @@ def main():
             snapshot = DataSnapshot()
             status_update = snapshot.node_status()
 
+            # send a probe status update if required (i.e. something changed)
+            if status_update and chat_id:
+                t.send_msg(status_update, chat_id)
+
 
             # get updates from the Telegram bot
             # (Note we're using long polling, which is an extended http timeout to avoid 
@@ -91,10 +95,6 @@ def main():
             #
             # Pass the ID of last rec'd message to ack message and stop it being sent again
             updates = t.get_updates(last_update_id)
-
-            # send a probe status update if required (i.e. something changed)
-            if status_update and chat_id:
-                t.send_msg(status_update, chat_id)
 
             # if we have a message to process, lets take action
             if updates and  (len(updates["result"]) > 0):             
