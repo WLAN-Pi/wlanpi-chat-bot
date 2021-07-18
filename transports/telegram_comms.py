@@ -6,6 +6,7 @@ from requests.exceptions import HTTPError
 import logging
 import urllib
 import json
+import timeout_decorator
 
 logging.basicConfig(level=logging.INFO)
 class_logger = logging.getLogger('TelegramAlert')
@@ -100,7 +101,11 @@ class TelegramComms(object):
         else:
             return False
 
+    # timeout to ensure long poll will timeout even if
+    # network connection is lost/changes during wait
+    @timeout_decorator.timeout(45, use_signals=False) 
 
+    # Get updates (this is the long poll function)
     def get_updates(self, offset=None):
         url = self.URL + "getUpdates?timeout={}".format(self.long_polling_timeout)
         if offset:
