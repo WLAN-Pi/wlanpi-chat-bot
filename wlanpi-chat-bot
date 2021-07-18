@@ -64,7 +64,11 @@ def main():
     # event loop
     while True:
 
+        script_logger.debug("Poll cycle start.")
+
         # check we're online to Telegram
+        script_logger.debug("Checking we're online to Telegram.")
+
         if tc.check_telegram_available():
             script_logger.debug("We're online.")
 
@@ -76,6 +80,7 @@ def main():
                 startup_msg = get_status()
 
                 if startup_msg:
+                    script_logger.debug("Sending startup message.")
                     t.send_msg(startup_msg, chat_id, encode=False)
                 
                 online = True # signal that we are back online
@@ -86,6 +91,7 @@ def main():
 
             # send a probe status update if required (i.e. something changed)
             if status_update and chat_id:
+                script_logger.debug("Looks like something changed, sending status update.")
                 t.send_msg(status_update, chat_id)
 
 
@@ -94,11 +100,18 @@ def main():
             # use of rapid upstream polling of Telegram bot to check for new messages)
             #
             # Pass the ID of last rec'd message to ack message and stop it being sent again
-            updates = t.get_updates(last_update_id)
+            try:
+                script_logger.debug("Checking for messages (long poll start).")
+                updates = t.get_updates(last_update_id)
+            except:
+                script_logger.debug("Long poll timed out (maybe network changed?), restarting poll cycle.")
+                continue
+
 
             # if we have a message to process, lets take action
             if updates and  (len(updates["result"]) > 0):             
 
+                script_logger.debug("Processing message.")
                 last_update_id = t.get_last_update_id(updates) + 1
 
                 # slice out the last msg (in the case of multipe msgs being sent)
@@ -115,6 +128,7 @@ def main():
 
                 # if we don't have a global chat_id already, write it to the config file
                 if not chat_id:
+                    script_logger.debug("Writing chat ID to config file.")
                     conf_obj.config['telegram']["chat_id"] = chat
                     conf_obj.update_config()
 
@@ -124,6 +138,7 @@ def main():
                 text = ' '.join(text.split())
 
                 # get list of available commands
+                script_logger.debug("Getting command list.")
                 command_list = list(GLOBAL_CMD_DICT.keys())
                 command_list.sort()
 
@@ -134,11 +149,13 @@ def main():
                     [ help, text ] = text.split(" ", 1)
 
                 # parse command and expand any shortening of verbs (run, show, set, exec)
+                script_logger.debug("Parse command.")
                 [command, args_list] = parse_cmd(text, command_list)
 
                 msg = "blank"
                 encode = True
 
+                script_logger.debug("Process command.")
                 if help.startswith('help'):
                     # provide help method from command class
                     if command:
@@ -166,14 +183,17 @@ def main():
                 else:
                     msg = 'Unknown command (try "help" or "?" command)'
 
-                logging.debug("Send status data to Telegram")
+                script_logger.debug("Send msg to Telegram ({})".format(msg))
                 t.send_msg(msg, chat, encode=encode)
         else:
             # we likely had a connectivity issue of some type....lets sleep
             print("We're offline")
+            script_logger.debug("We appear to be offline, sleeping before next loop.")
             script_logger.error("We have a network connectivity issue. Sleeping before we try again.")
             online = False
             time.sleep(30)
+        
+        script_logger.debug("Poll cycle complete.")
 
 
 if __name__ == '__main__':
