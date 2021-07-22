@@ -2,6 +2,7 @@
 
 echo "Starting Chat Bot service"
 systemctl daemon-reload
+systemctl enable wlanpi-chat-bot
 systemctl start wlanpi-chat-bot
 
 echo ""
