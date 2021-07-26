@@ -4,45 +4,29 @@ Chat bot for the WLAN Pi project
 
 *** Note that this code is still under development ***
 
-# Installation
-
-To install the code, from the WLAN Pi CLI, execute the following commands:
+# Debian Package Build/Install
 
 ```
+# Build the deb package
+git clone https://github.com/WLAN-Pi/wlanpi-telegram-bot.git
+cd wlanpi-telegram-bot
+sudo dpkg-buildpackage -us -uc
 
-cd /home/wlanpi
-
-# pull the code from GitHub
-sudo git clone https://github.com/WLAN-Pi/wlanpi-chat-bot.git
-
-# change in to the new code directory
-cd wlanpi-chat-bot
-
-# run the install script
-./install.sh
-
-# add in the bot key to the configuration file (update the "bot_token" field)
-nano /opt/wlanpi-chat-bot/etc/config.json
-
-# start the bot service
-sudo systemctl restart wlanpi-chat-bot.service
-
-# check the service status
-sudo systemctl status wlanpi-chat-bot.service
-```
-
-To remove the code and pull in a newer version execute the following commands and then repeat the steps above
-
-```
-cd /home/wlanpi/wlanpi-chat-bot
-
-# run the de-install script
-./install.sh -r
-
-# remove existing source files
+# The deb package is here
 cd ..
-rm -rf ./wlanpi-chat-bot
 
+# Install the package
+sudo dpkg -i wlanpi-chat-bot_1.0.0_armhf.deb 
+
+# Configure your Telegram API key and restart twice (so that Chat ID is obtained and you receive a new status message from the bot)
+sudo nano /opt/wlanpi-chat-bot/etc/config.json
+sudo systemctl restart wlanpi-chat-bot; sleep 5; sudo systemctl restart wlanpi-chat-bot 
+
+# Uninstall the package while keeping the Chat Bot config file with your API key
+sudo dpkg -r wlanpi-chat-bot
+
+# Remove the package completely including Chat Bot config file with your API key
+sudo dpkg -P wlanpi-chat-bot
 ```
 
 # Commands
@@ -75,11 +59,4 @@ speedtest
 
 To see the list of commands available, type `help` or `?` when sending messages to the WLANP Pi.
 
-# Notes
-
-1. Without a Telegram bot key configured, the service will not currently start.
-2. The start-up message from the WLAN Pi is not seen the first time that the bot service is run (as the chat ID has not yet been derived). This is a one-time issue.
-3. Logging levels are "info" by default and logging is sent to syslog
-
 ![Screenshot](images/screenshot.png)
-
