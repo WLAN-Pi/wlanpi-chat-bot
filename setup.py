@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/WLAN-Pi/wlanpi-chat-bot",
     packages=setuptools.find_packages(),
-    install_requires=['timeout_decorator'],
+    install_requires=[ "requests", "wheel", "timeout_decorator", "psutil", "netifaces"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: Free for non-commercial use",
