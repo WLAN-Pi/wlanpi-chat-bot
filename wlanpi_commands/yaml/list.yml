@@ -1,0 +1,6 @@
+---
+ command: list
+ exec: ls -l
+ progress_msg: Listing files
+ help_short: List files in a dir
+ help_long: List files in a dir

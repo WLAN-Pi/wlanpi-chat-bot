@@ -1,0 +1,7 @@
+---
+ command: show_reachability
+ exec: /usr/share/fpms/BakeBit/Software/Python/scripts/networkinfo/reachability.sh
+ progress_msg: Getting reachability info...
+ help_short: Show probe reachability to various services
+ help_long: Show probe reachability to various services
+

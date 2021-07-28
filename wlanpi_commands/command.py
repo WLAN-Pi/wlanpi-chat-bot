@@ -1,6 +1,8 @@
 import os
 import subprocess
 import utils.emojis
+import yaml
+import glob
 
 class Command():
     """
@@ -114,10 +116,6 @@ from .set_display_mode import SetDisplayMode
 from .set_display_width import SetDisplayWidth
 from .show_time import ShowTime
 from .show_uptime import ShowUptime
-from .show_cdp import ShowCDP
-from .show_publicip import ShowPublicip
-from .show_reachability import ShowReachability
-from .show_lldp import ShowLLDP
 from .show_summary import ShowSummary
 from .show_mode import ShowMode
 from .reboot import Reboot
@@ -130,7 +128,7 @@ from .show_version import ShowVersion
 
 
 def register_commands(telegram_object, conf_obj):
-    # Register all of our commands
+    # Register all of our class-based commands
     command_objects = []
     global_objs = list(globals().items())
 
@@ -144,5 +142,39 @@ def register_commands(telegram_object, conf_obj):
 
         command_name = command_obj.command_name
         GLOBAL_CMD_DICT[command_name] = command_obj
+    
+    # register all of our YAML based commands
+    # (each of the files are read and a new object created using the data in the YAML file)
 
+    # Read all available command files
+    yaml_files = glob.glob("{}/*.yml".format(conf_obj.config['telegram']['yaml_cmds']))
+
+    # import yaml command object
+    from .command_yaml import YamlCommand
+
+    # Create object & add obj params (exec, help, name etc.)
+    for yaml_file in yaml_files:
+        
+        with open(yaml_file, 'r') as stream:
+
+            # read in yaml file & parse in to dict
+            try:
+                cmd_values = (yaml.safe_load(stream))
+            except yaml.YAMLError as exc:
+                print("YAML file read error : {}".format(exc))
+                continue
+            
+            # create a new object and add values from the YAML file
+            yaml_cmd_obj = YamlCommand(telegram_object, conf_obj)
+
+            # assign the values from the yaml command file to the new obj
+            yaml_cmd_obj.command_name = cmd_values['command']
+            yaml_cmd_obj.help_short = cmd_values['help_short']
+            yaml_cmd_obj.help_long = cmd_values['help_long']
+            yaml_cmd_obj.exec = cmd_values['exec']
+            yaml_cmd_obj.progress_msg = cmd_values['progress_msg']
+
+            # add the new command to the global command dict
+            GLOBAL_CMD_DICT[yaml_cmd_obj.command_name] = yaml_cmd_obj  
+    
     return GLOBAL_CMD_DICT

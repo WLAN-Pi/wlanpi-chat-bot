@@ -1,18 +1,33 @@
+import yaml
+import sys
+import re
 
+# read in the verb definitions from yaml file
+with open(sys.path[0] + '/utils/verbs.yml', 'r') as f:
 
-supported_verbs = [ 'show', 'exec', 'set', 'run', 'speedtest', 'ping', 'iperf', 'iperf3', 'reboot']
-no_noun = [ 'speedtest', 'ping', 'iperf', 'iperf3', 'reboot']
+        # read in yaml file & parse in to dict
+        try:
+            data_dict = (yaml.safe_load(f))
+        except yaml.YAMLError as exc:
+            print("YAML file read error : {}".format(exc))
+            exit()
+
+supported_verbs = data_dict['supported_verbs']
+no_noun = data_dict['no_noun']
+verb_combos = data_dict['verb_combos']
+
+def sanitize_args(args):
+
+    clean_args = []
+
+    for arg in args:
+        clean_arg = re.sub('[;`<>|]', '', arg)
+        clean_args.append(clean_arg)
+    
+    return clean_args
+
 
 def verb_expander(cmd_verb):
-
-    verb_combos = {
-        "exec": ["e", "ex", "exe"],
-        "ping": ['p', 'pi', 'pin'],
-        "set":  ['se'],
-        "show": ['sh', 'sho'],
-        "speedtest": [ 'sp', 'spe', 'spee', 'speed', 'speedt', 'speedte', 'speedtes' ],
-        
-    }
 
     for verb, abbr_list in verb_combos.items():
         if cmd_verb in abbr_list:
@@ -34,7 +49,7 @@ def parse_cmd(cmd_text, command_list):
 
     Verb noun [arg1]...[argX]
 
-    Supported verbs:
+    Supported verbs include (check utils/verbs.yml for gull list):
 
     - exec (unambiguous abbreviations: e, ex, exe)
     - set (unambiguous abbreviations: se)
@@ -85,7 +100,7 @@ def parse_cmd(cmd_text, command_list):
                     args.append(arg)
 
                 # format: [ str, list ]
-                return [cmd, args]
+                return [cmd, sanitize_args(args)]
 
     # this branch deals with a verb + noun command (e.g. show cdp)
     else:
@@ -103,7 +118,7 @@ def parse_cmd(cmd_text, command_list):
                     args.append(arg)
 
                 # format: [ str, list ]
-                return [cmd, args]
+                return [cmd, sanitize_args(args)]
     
     # no match, return False
     return [ False, [] ]

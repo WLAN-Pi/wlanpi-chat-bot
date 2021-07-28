@@ -3,3 +3,4 @@ wheel
 timeout_decorator
 psutil
 netifaces
+PyYAML

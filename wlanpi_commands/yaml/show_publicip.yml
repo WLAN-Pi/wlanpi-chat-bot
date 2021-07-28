@@ -1,0 +1,6 @@
+---
+ command: show_publicip
+ exec: /usr/share/fpms/BakeBit/Software/Python/scripts/networkinfo/publicip.sh
+ progress_msg: Getting public IP...
+ help_short: Show probe public IP
+ help_long: Show probe public IP

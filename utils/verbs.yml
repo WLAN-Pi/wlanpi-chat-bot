@@ -1,0 +1,23 @@
+---
+supported_verbs: # all supported verbs
+  - show
+  - exec
+  - set
+  - run
+  - speedtest
+  - ping
+  - iperf
+  - iperf3
+  - reboot
+no_noun: # verbs that do not require a noun (subset of supported_verbs)
+  - speedtest
+  - ping
+  - iperf
+  - iperf3
+  - reboot
+verb_combos: # acceptable abbreviations for each verb
+        exec: ["e", "ex", "exe"]
+        ping: ['p', 'pi', 'pin']
+        set:  ['se']
+        show: ['sh', 'sho']
+        speedtest: [ 'sp', 'spe', 'spee', 'speed', 'speedt', 'speedte', 'speedtes' ]
