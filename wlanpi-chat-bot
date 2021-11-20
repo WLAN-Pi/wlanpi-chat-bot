@@ -64,6 +64,14 @@ def main():
     # event loop
     while True:
 
+        # handle missing API key to save just failing the service if its missing
+        if conf_obj.config['telegram']["bot_token"] == "":
+
+            # no API token - sleep and try again later
+            script_logger.info("Chat-bot has no API key - unable to go online.")
+            time.sleep(60)
+            break
+
         script_logger.debug("Poll cycle start.")
 
         # check we're online to Telegram
