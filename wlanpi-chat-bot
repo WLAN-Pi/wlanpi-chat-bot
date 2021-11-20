@@ -69,8 +69,8 @@ def main():
 
             # no API token - sleep and try again later
             script_logger.info("Chat-bot has no API key - unable to go online.")
-            time.sleep(60)
-            break
+            time.sleep(3600)
+            continue
 
         script_logger.debug("Poll cycle start.")
 
