@@ -2,6 +2,7 @@
  command: show_cdp
  exec: cat /tmp/cdpneigh.txt 2> /dev/null || echo \"No CDP file found\"
  progress_msg: Getting CDP neighbours
+ emoji: page
  help_short: Show probe CDP neighbours
  help_long: "show cdp: Show the CDP neighbours of the probe. \n\n
              (Note that neigbours may take up to 30 seconds to be reported after a boot \n)"  

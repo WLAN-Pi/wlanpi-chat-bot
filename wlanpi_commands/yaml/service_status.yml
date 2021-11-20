@@ -1,0 +1,7 @@
+---
+ command: service_status
+ exec: "systemctl status $args$ | grep Active | head -n 1"
+ progress_msg: Getting service status...
+ emoji: status
+ help_short: Get status of a service 
+ help_long: Get status of a service  

@@ -1,0 +1,7 @@
+---
+ command: service_restart
+ exec: "systemctl restart "
+ progress_msg: Restarting service...
+ emoji: restart
+ help_short: Restart a service 
+ help_long: Restart a service  

@@ -173,6 +173,7 @@ def register_commands(telegram_object, conf_obj):
             yaml_cmd_obj.help_long = cmd_values['help_long']
             yaml_cmd_obj.exec = cmd_values['exec']
             yaml_cmd_obj.progress_msg = cmd_values['progress_msg']
+            yaml_cmd_obj.emoji = cmd_values['emoji']
 
             # add the new command to the global command dict
             GLOBAL_CMD_DICT[yaml_cmd_obj.command_name] = yaml_cmd_obj  

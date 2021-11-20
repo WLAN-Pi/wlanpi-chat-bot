@@ -1,6 +1,7 @@
 ---
- command: show_publicip
- exec: /usr/share/fpms/BakeBit/Software/Python/scripts/networkinfo/publicip.sh
+ command: show publicip
+ exec: /opt/wlanpi-common/networkinfo/publicip.sh
  progress_msg: Getting public IP...
+ emoji: 
  help_short: Show probe public IP
  help_long: Show probe public IP

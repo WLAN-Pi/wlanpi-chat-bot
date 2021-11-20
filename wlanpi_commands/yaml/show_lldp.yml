@@ -2,6 +2,7 @@
  command: show_lldp
  exec: cat /tmp/lldpneigh.txt 2> /dev/null || echo \"No LLDP file found\"
  progress_msg: Getting LLDP neighbours
+ emoji: page
  help_short: Show probe LLDP neighbours
  help_long: "show cdp: Show the LLDP neighbours of the probe. \n\n
              (Note that neigbours may take up to 60 seconds to be reported after a boot \n)"  

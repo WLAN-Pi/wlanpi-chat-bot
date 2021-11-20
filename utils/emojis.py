@@ -39,3 +39,18 @@ def beer(number=1):
 
 def coffee(number=1):
     return "\U00002615 "  * number
+
+def start(number=1):
+    return "\U00002705 "  * number
+
+def stop(number=1):
+    return "\U0000274c "  * number
+
+def status(number=1):
+    return "\U00002753 "  * number
+
+def restart(number=1):
+    return "\U0001F504 "  * number
+
+def page(number=1):
+    return "\U0001F4C4 "  * number

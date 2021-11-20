@@ -1,6 +1,5 @@
-import os
 import subprocess
-
+import utils.emojis
 
 class YamlCommand():
     """
@@ -15,6 +14,7 @@ class YamlCommand():
         self.help_long = "A much longer help string which might span several lines....who knows?"
         self.exec = "echo No command passed to obj"
         self.progress_msg = "In progress..."
+        self.emoji = ""
         
         self.conf_obj =  conf_obj
         self.display_mode = self.conf_obj.config['telegram']['display_mode']
@@ -62,10 +62,25 @@ class YamlCommand():
     def run(self, args):
 
         cmd_string = self.exec
+
+        # add in args passed to the cmd
+        arg_str = "".join(args)
+
+        if "$args" in cmd_string:
+            # substitute args in to command
+            cmd_string = cmd_string.replace("$args$", arg_str)  
+            # else just append to command     
+        else: 
+            cmd_string += arg_str
+        
         progress_msg = self.progress_msg
 
         # send status msg
         if progress_msg:
+            if self.emoji:
+                emoji = eval("utils.emojis." + self.emoji + "()")
+                progress_msg = emoji + progress_msg
+
             chat_id = self.telegram_object.chat_id
             self.telegram_object.send_msg(progress_msg, chat_id)
 

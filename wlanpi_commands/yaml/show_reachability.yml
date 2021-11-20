@@ -1,7 +1,8 @@
 ---
  command: show_reachability
- exec: /usr/share/fpms/BakeBit/Software/Python/scripts/networkinfo/reachability.sh
+ exec: /opt/wlanpi-common/networkinfo/reachability.sh
  progress_msg: Getting reachability info...
+ emoji: 
  help_short: Show probe reachability to various services
  help_long: Show probe reachability to various services
 

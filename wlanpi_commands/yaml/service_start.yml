@@ -1,0 +1,7 @@
+---
+ command: service_start
+ exec: "systemctl start "
+ progress_msg: Starting service...
+ emoji: start
+ help_short: Start a service 
+ help_long: Start a service  

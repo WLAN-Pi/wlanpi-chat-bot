@@ -1,0 +1,7 @@
+---
+ command: service_stop
+ exec: "systemctl stop "
+ progress_msg: Stopping service...
+ emoji: stop
+ help_short: Stop a service 
+ help_long: Stop a service  

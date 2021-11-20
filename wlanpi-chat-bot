@@ -177,6 +177,7 @@ def main():
                     fixed_command_list = [e.replace("_", " ") for e in command_list]
                     msg = msg + fixed_command_list + ['(Type "info" for startup status msg)']
 
+                # open those easter eggs kids!
                 elif text in utils.useful.cmds.keys():
                     msg = utils.useful.cmds[text]()
 
@@ -186,7 +187,9 @@ def main():
                     encode = False
 
                 elif command in command_list:
+                    script_logger.info(f"Command sent: {command}, (args: {args_list})")
                     msg = GLOBAL_CMD_DICT[command].run(args_list)
+                    
                 
                 else:
                     msg = 'Unknown command (try "help" or "?" command)'

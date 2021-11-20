@@ -1,6 +1,7 @@
 ---
- command: list
- exec: ls -l
+ command: list_files
+ exec: "ls -l "
  progress_msg: Listing files
+ emoji: 
  help_short: List files in a dir
  help_long: List files in a dir
