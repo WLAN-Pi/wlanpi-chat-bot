@@ -39,7 +39,7 @@ class Speedtest(Command):
         Return the help page for this command
         """
         short_msg = "Run an Ookla speedtest from probe."
-        long_msg = """Speedtest: This command runs a spedtest to the Ookla speedtest service from the probe.
+        long_msg = """Speedtest: This command runs a speedtest to the Ookla speedtest service from the probe.
 
 It provides the upload and download speed from the probe to the Internet. 
 
