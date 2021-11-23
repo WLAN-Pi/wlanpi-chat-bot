@@ -1,0 +1,7 @@
+---
+ command: set_timezone
+ exec: "/opt/wlanpi-common/wlanpi-timezone.sh set "
+ progress_msg: Setting timezone...
+ emoji: page
+ help_short: Set WLAN Pi timezone (set timezone Europe/London)
+ help_long: Set WLAN Pi timezone (set timezone Europe/London)
