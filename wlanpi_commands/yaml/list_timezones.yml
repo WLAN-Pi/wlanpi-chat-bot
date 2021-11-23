@@ -1,6 +1,6 @@
 ---
  command: list_timezones
- exec: "/opt/wlanpi-common/timezone.sh list "
+ exec: "/opt/wlanpi-common/wlanpi-timezone.sh list "
  progress_msg: Listing timezones...
  emoji: page
  help_short: List available timezones
