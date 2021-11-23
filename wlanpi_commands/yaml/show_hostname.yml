@@ -1,0 +1,7 @@
+---
+ command: show_hostname
+ exec: "/opt/wlanpi-common/wlanpi-hostname.sh get"
+ progress_msg: Getting hostname...
+ emoji: page
+ help_short: Show WLAN Pi hostname
+ help_long: Show WLAN Pi hostname
