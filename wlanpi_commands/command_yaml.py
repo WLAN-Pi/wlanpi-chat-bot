@@ -89,7 +89,11 @@ class YamlCommand():
 
         try:
             cmd_output = subprocess.check_output(cmd_string, shell=True).decode().strip()
+            #TODO: add pagination here for large output 
+            if len(cmd_output) > 4000:
+                cmd_output = cmd_output[0:4091]
             cmd_info = cmd_output.split('\n')
+
         except subprocess.CalledProcessError as exc:
             output = exc.output.decode()
             error = "Err: cmd error : {}".format(output)
@@ -98,7 +102,7 @@ class YamlCommand():
 
         if len(cmd_info) == 0:
             cmd_info.append("No output sorry")
-
+        
         return cmd_info
 
     def help(self):
