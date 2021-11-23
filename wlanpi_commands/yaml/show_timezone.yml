@@ -1,0 +1,7 @@
+---
+ command: show_timezone
+ exec: "/opt/wlanpi-common/wlanpi-timezone.sh get"
+ progress_msg: Getting timezone...
+ emoji: page
+ help_short: Show WLAN Pi timezone
+ help_long: Show WLAN Pi timezone
