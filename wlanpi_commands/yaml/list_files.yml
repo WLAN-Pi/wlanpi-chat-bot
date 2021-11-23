@@ -1,0 +1,7 @@
+---
+ command: list_files
+ exec: "ls -l "
+ progress_msg: Listing files
+ emoji: page
+ help_short: List files in a dir: list files /var/log
+ help_long: List files in a dir: list files /var/log
