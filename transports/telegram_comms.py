@@ -61,21 +61,34 @@ class TelegramComms(object):
             for line in messages:
                 message += line  + "\n"        
 
-        # correctly encode message
-        if encode:
-            message = urllib.parse.quote_plus(message)
-        url = f"https://api.telegram.org/bot{self.api_key}/sendMessage?chat_id={chat_id}&parse_mode=html&text={message}"
+        print(len(message))
+        while len(message) > 0:
+            print(len(message))
 
-        try:
-            requests.post(url)
-        except HTTPError as http_err:
-            self.err_msg = f'HTTP error occurred: {http_err}'
-            class_logger.error(self.err_msg)
-            return False
-        except Exception as err:
-            self.err_msg = f'Other error occurred: {err}'
-            class_logger.error(self.err_msg)
-            return False
+            msg_send = ""
+
+            if len(message) > 4096:
+                msg_send = message[0:4096]
+                message = message[4096:]
+            else:
+                msg_send = message
+                message = ""
+
+            # correctly encode message
+            if encode:
+                message = urllib.parse.quote_plus(message)
+            url = f"https://api.telegram.org/bot{self.api_key}/sendMessage?chat_id={chat_id}&parse_mode=html&text={msg_send}"
+
+            try:
+                requests.post(url)
+            except HTTPError as http_err:
+                self.err_msg = f'HTTP error occurred: {http_err}'
+                class_logger.error(self.err_msg)
+                return False
+            except Exception as err:
+                self.err_msg = f'Other error occurred: {err}'
+                class_logger.error(self.err_msg)
+                return False
         
         return True
     
