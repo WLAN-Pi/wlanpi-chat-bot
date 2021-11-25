@@ -140,8 +140,8 @@ def main():
                     conf_obj.config['telegram']["chat_id"] = chat
                     conf_obj.update_config()
 
-                # normalize text case
-                text = text.lower()
+                # normalize text case  - note removed as breakin case-sensitive args
+                # text = text.lower()
                 # cleanup whitespace (inc trailing & leading space)
                 text = ' '.join(text.split())
 
