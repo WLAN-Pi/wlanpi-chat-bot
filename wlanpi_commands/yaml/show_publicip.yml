@@ -1,5 +1,5 @@
 ---
- command: show publicip
+ command: show_publicip
  exec: /opt/wlanpi-common/networkinfo/publicip.sh
  progress_msg: Getting public IP...
  emoji: 
