@@ -61,9 +61,7 @@ class TelegramComms(object):
             for line in messages:
                 message += line  + "\n"        
 
-        print(len(message))
         while len(message) > 0:
-            print(len(message))
 
             msg_send = ""
 
