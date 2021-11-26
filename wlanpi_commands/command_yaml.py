@@ -95,12 +95,12 @@ class YamlCommand():
             output = exc.output.decode()
             error = "Err: {}".format(output)
             #self.telegram_object.send_msg(error, chat_id)
-            return error
+            return self._render(utils.emojis.bad() + error)
 
         if len(cmd_info) == 0:
             cmd_info.append("No output sorry")
         
-        return cmd_info
+        return self._render([ utils.emojis.good() + " OK" ] + cmd_info)
 
     def help(self):
         """
