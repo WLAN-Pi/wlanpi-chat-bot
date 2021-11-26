@@ -187,7 +187,7 @@ def main():
                     encode = False
 
                 elif command in command_list:
-                    script_logger.info(f"Command sent: {command}, (args: {args_list})")
+                    script_logger.debug(f"Command sent: {command}, (args: {args_list})")
                     msg = GLOBAL_CMD_DICT[command].run(args_list)
                     
                 
