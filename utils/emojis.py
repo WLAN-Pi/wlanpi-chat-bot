@@ -54,3 +54,9 @@ def restart(number=1):
 
 def page(number=1):
     return "\U0001F4C4 "  * number
+
+def good(number=1):
+    return "\U00002705 "  * number
+
+def bad(number=1):
+    return "\U0000274C "  * number
