@@ -13,14 +13,10 @@ https://www.codementor.io/@garethdwyer/building-a-telegram-bot-using-python-part
 
 Thank you Gareth.
 """
-import json
 import logging
-import requests
 import time
-import urllib
-from pprint import pprint
+from os.path import exists
 import os
-
 
 from transports.telegram_comms import TelegramComms
 from wlanpi_commands.command import Command
@@ -45,6 +41,33 @@ conf_obj.read_config()
 # Telegram info
 api_key = conf_obj.config['telegram']["bot_token"]
 chat_id = False # we may not know our chat_id initially...
+
+if not api_key:
+    # check to see if we can find the key in the /boot folder
+    key_file = '/boot/bot.key'
+
+    if exists(key_file):
+        script_logger.info(f"Found token file at {key_file}")
+
+        script_logger.debug("Reading token file...")
+        try: 
+            with open(key_file, "r") as f:
+                api_key = f.readline().strip()
+            script_logger.info("Token file read OK.")
+        except Exception as ex:
+            script_logger.error(f"Issue reading bot key file {ex}")
+
+        if api_key:
+            conf_obj.config['telegram']["bot_token"] = api_key
+
+        # remove the key file
+        try: 
+            os.remove(key_file)
+            script_logger.info("Token file removed.")
+        except Exception as ex:
+            script_logger.error(f"Issue removing bot key file {ex}")
+
+        conf_obj.update_config()
 
 t = TelegramComms(api_key)
 
@@ -75,7 +98,7 @@ def main():
         script_logger.debug("Poll cycle start.")
 
         # check we're online to Telegram
-        script_logger.debug("Checking we're online to Telegram.")
+        script_logger.debug("Checking we can access Telegram network port (not an auth check).")
 
         if tc.check_telegram_available():
             script_logger.debug("We're online.")
@@ -111,6 +134,7 @@ def main():
             try:
                 script_logger.debug("Checking for messages (long poll start).")
                 updates = t.get_updates(last_update_id)
+                print(f"Updates: {updates}")
             except:
                 script_logger.debug("Long poll timed out (maybe network changed?), restarting poll cycle.")
                 continue
