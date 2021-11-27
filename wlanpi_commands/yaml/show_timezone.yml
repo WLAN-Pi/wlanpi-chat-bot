@@ -3,5 +3,7 @@
  exec: "/opt/wlanpi-common/wlanpi-timezone.sh get"
  progress_msg: Getting timezone...
  emoji: page
- help_short: Show WLAN Pi timezone
- help_long: Show WLAN Pi timezone
+ help_short: "show timezone: Show current WLAN Pi timezone"
+ help_long: "show timezone:\n\n
+             Show the current WLAN Pi timezone\n
+             syntax: show timezone"

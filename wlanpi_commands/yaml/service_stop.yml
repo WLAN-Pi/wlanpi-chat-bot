@@ -3,5 +3,7 @@
  exec: "systemctl stop "
  progress_msg: Stopping service...
  emoji: stop
- help_short: Stop a service 
- help_long: Stop a service  
+ help_short: "service stop: Stop a named service (e.g. service stop servicename)"
+ help_long: "service stop:\n\n
+             Stop a named service\n
+             syntax: service stop servicename"   

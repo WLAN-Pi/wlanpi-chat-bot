@@ -3,5 +3,7 @@
  exec: "systemctl start "
  progress_msg: Starting service...
  emoji: start
- help_short: Start a service 
- help_long: Start a service  
+ help_short: "service start: Start a named service (e.g. service start servicename)"
+ help_long: "service start:\n\n
+             Start a named service\n
+             syntax: service start servicename"   

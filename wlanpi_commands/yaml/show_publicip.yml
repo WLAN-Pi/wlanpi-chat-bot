@@ -3,5 +3,7 @@
  exec: /opt/wlanpi-common/networkinfo/publicip.sh
  progress_msg: Getting public IP...
  emoji: 
- help_short: Show probe public IP
- help_long: Show probe public IP
+ help_short: "show publicip: Show probe public IP of probe"
+ help_long: "show publicip:\n\n
+             Show probe public IP address\n
+             syntax: show publicip"

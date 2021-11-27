@@ -3,5 +3,7 @@
  exec: "/opt/wlanpi-common/wlanpi-reg-domain.sh set "
  progress_msg: Setting hostname...(remember to reboot for change to take effect)
  emoji: page
- help_short: Set WLAN Pi regulatory domain (set regdomain GB)
- help_long: Set WLAN Pi regulatory domain (set regdomain GB)
+ help_short: "set regdomain: Set WLAN Pi regulatory domain (set regdomain GB)"
+ help_long: "set regdomain:\n\n
+             Set WLAN Pi regulatory domain\n
+             syntax: set regdomain GB"

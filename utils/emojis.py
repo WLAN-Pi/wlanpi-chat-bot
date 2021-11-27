@@ -60,3 +60,7 @@ def good(number=1):
 
 def bad(number=1):
     return "\U0000274C "  * number
+
+def help(number=1):
+    #return "\U0001F989 "  * number
+    return "\U00002753 "  * number

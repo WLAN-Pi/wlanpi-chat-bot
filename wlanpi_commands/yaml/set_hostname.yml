@@ -3,5 +3,7 @@
  exec: "/opt/wlanpi-common/wlanpi-hostname.sh set "
  progress_msg: Setting hostname...
  emoji: page
- help_short: Set WLAN Pi hostname (set hostname my_hostname)
- help_long: Set WLAN Pi hostname (set hostname my_hostname)
+ help_short: "set hostname: Set WLAN Pi hostname (set hostname my_hostname)"
+ help_long: "set hostname:\n\n
+             Sets the hostname of the WLAN Pi\n
+             syntax: set hostname \"string\""

@@ -112,4 +112,4 @@ class YamlCommand():
         if self.display_mode == "compact":
             return short_msg
         else:
-            return long_msg
+            return utils.emojis.help() + " " + long_msg

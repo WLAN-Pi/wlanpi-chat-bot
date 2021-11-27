@@ -3,5 +3,7 @@
  exec: "/opt/wlanpi-common/wlanpi-timezone.sh list "
  progress_msg: Listing timezones...
  emoji: page
- help_short: List available timezones
- help_long: List available timezones
+ help_short: "list timezones: List available timezones"
+ help_long: "list timezones:\n\n
+             List timezones that can be used with the \"set timezone\" command\n
+             syntax: list timezones"

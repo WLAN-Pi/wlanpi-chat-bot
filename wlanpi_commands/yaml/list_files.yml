@@ -3,5 +3,7 @@
  exec: "ls -l "
  progress_msg: Listing files
  emoji: page
- help_short: List files in a dir (e.g. list files /var/log)
- help_long: List files in a dir (e.g. list files /var/log)
+ help_short: "list files: List files in a dir (e.g. list files /var/log)"
+ help_long: "list files:\n\n
+             List files in a dir\n
+             syntax: list files /var/log"

@@ -3,6 +3,8 @@
  exec: /opt/wlanpi-common/networkinfo/reachability.sh
  progress_msg: Getting reachability info...
  emoji: 
- help_short: Show probe reachability to various services
- help_long: Show probe reachability to various services
+ help_short: "show reachability: Show probe reachability to various network services"
+ help_long: "show reachaniity:\n\n
+             Show probe reachability to various network services\n
+             syntax: show reachability"
 

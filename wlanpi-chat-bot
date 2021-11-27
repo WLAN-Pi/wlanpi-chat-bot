@@ -134,7 +134,6 @@ def main():
             try:
                 script_logger.debug("Checking for messages (long poll start).")
                 updates = t.get_updates(last_update_id)
-                print(f"Updates: {updates}")
             except:
                 script_logger.debug("Long poll timed out (maybe network changed?), restarting poll cycle.")
                 continue
