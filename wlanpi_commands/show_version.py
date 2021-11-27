@@ -1,5 +1,6 @@
 from .command import Command
 import os
+import utils.emojis
 
 class ShowVersion(Command):
     
@@ -41,3 +42,19 @@ class ShowVersion(Command):
             version_string += "\nBot: unknown"
  
         return self._render(version_string)
+    
+    def help(self):
+        """
+        Return the help page for this command
+        """
+        short_msg = "show ver: Show the probe software version"
+        long_msg = """show ver: 
+
+Show the probe software version
+
+syntax: show ver"""
+
+        if self.display_mode == "compact":
+            return short_msg
+        else:
+            return utils.emojis.help() + " " + long_msg
