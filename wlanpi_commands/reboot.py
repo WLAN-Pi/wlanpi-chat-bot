@@ -1,5 +1,6 @@
 from .command import Command
 import os
+import utils.emojis
 
 class Reboot(Command):
     
@@ -9,5 +10,22 @@ class Reboot(Command):
         self.command_name = "reboot"
     
     def run(self, args_list):        
-        os.system('shutdown -r')
-        return self._render("Attempting reboot in 1 minute...")
+
+        os.system('(sleep 2; systemctl reboot) &')
+        return self._render("Rebooting....please wait")
+    
+    def help(self):
+        """
+        Return the help page for this command
+        """
+        short_msg = "reboot: Reboot the probe"
+        long_msg = """reboot: 
+
+Reboot the probe
+
+syntax: reboot"""
+
+        if self.display_mode == "compact":
+            return short_msg
+        else:
+            return utils.emojis.help() + " " + long_msg
