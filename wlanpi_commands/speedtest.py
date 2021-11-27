@@ -1,7 +1,6 @@
 from .command import Command
-import os
 import subprocess
-from utils.emojis import graph, hour_glass
+import utils.emojis
 
 class Speedtest(Command):
     
@@ -14,7 +13,7 @@ class Speedtest(Command):
 
         # send status msg  
         chat_id = self.telegram_object.chat_id
-        self.telegram_object.send_msg("{} Running speedtest...please wait {}".format(graph(), hour_glass()), chat_id)
+        self.telegram_object.send_msg("{} Running speedtest...please wait {}".format(utils.emojis.graph(), utils.emojis.hour_glass()), chat_id)
 
         # perform speedtest
         speedtest_info = []
@@ -38,8 +37,8 @@ class Speedtest(Command):
         """
         Return the help page for this command
         """
-        short_msg = "Run an Ookla speedtest from probe."
-        long_msg = """Speedtest: This command runs a speedtest to the Ookla speedtest service from the probe.
+        short_msg = "speedtest: Run an Ookla speedtest from probe."
+        long_msg = """speedtest: This command runs a speedtest to the Ookla speedtest service from the probe.
 
 It provides the upload and download speed from the probe to the Internet. 
 
@@ -48,4 +47,4 @@ It provides the upload and download speed from the probe to the Internet.
         if self.display_mode == "compact":
             return short_msg
         else:
-            return long_msg
+            return utils.emojis.help() + " " + long_msg
