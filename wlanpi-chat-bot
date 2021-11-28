@@ -80,47 +80,6 @@ if not api_key:
 else:
     script_logger.debug("API key value exists.")
 
-# Have a quick check to see if anyone left us a new wpa_supplicant file
-# to use as part of a plug n play boot up
-supplicant_boot_file = '/boot/wlanpi_wifi.conf'
-
-script_logger.debug("Checking for Wi-Fi supplicant file in boot partition.")
-
-if exists(supplicant_boot_file):
-        script_logger.info(f"Found supplicant boot file at {supplicant_boot_file}")
-        wpa_supplicant = "/etc/wpa_supplicant/wpa_supplicant.conf"
-        
-        #script_logger.debug(f"Copying {supplicant_boot_file} to {wpa_supplicant}")
-        #try: 
-            #shutil.copy(supplicant_boot_file, wpa_supplicant)
-            #script_logger.debug(f"Copied OK.")
-        #except Exception as ex:
-            #script_logger.error(f"Issue copying file {ex}")
-        
-        # remove the supplicant boot file
-        #script_logger.debug("Removing supplicant boot file.")
-        #try: 
-            #os.remove(supplicant_boot_file)
-            #script_logger.info("Supplicant boot file removed.")
-        #except Exception as ex:
-            #script_logger.error(f"Issue removing supplicant file {ex}")
-        
-        # move the supplicant boot file
-        script_logger.debug("Removing supplicant boot file.")
-        try: 
-            os.system(f'mv {supplicant_boot_file} {wpa_supplicant}')
-            script_logger.info("Supplicant boot file removed.")
-        except Exception as ex:
-            script_logger.error(f"Issue moving supplicant file {ex}")
-        
-        # unfortunately, we need to boot for the new supplicant
-        # settings to take effect     
-        script_logger.debug("Rebooting probe.")
-        os.system('sync; sleep 20; systemctl reboot > /tmp/reboot.txt 2>&1')
-        
-else:
-    script_logger.debug("No Wi-Fi supplicant file found in boot partition.")
-
 t = TelegramComms(api_key)
 
 # Create Telegram network connection checker
