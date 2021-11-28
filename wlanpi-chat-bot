@@ -17,8 +17,6 @@ import logging
 import time
 from os.path import exists
 import os
-import shutil
-import sys
 
 from transports.telegram_comms import TelegramComms
 from wlanpi_commands.command import Command
