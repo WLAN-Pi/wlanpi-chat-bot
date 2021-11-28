@@ -17,6 +17,8 @@ import logging
 import time
 from os.path import exists
 import os
+import shutil
+import sys
 
 from transports.telegram_comms import TelegramComms
 from wlanpi_commands.command import Command
@@ -32,6 +34,8 @@ logging.basicConfig(level=logging.INFO)
 script_logger = logging.getLogger('TelegramAlert')
 #script_logger.setLevel(logging.DEBUG)
 
+script_logger.debug("********* Starting chat bot *************")
+
 long_polling_timeout = 100
 
 # read in local node config info
@@ -42,18 +46,22 @@ conf_obj.read_config()
 api_key = conf_obj.config['telegram']["bot_token"]
 chat_id = False # we may not know our chat_id initially...
 
+# lets see if we can find an api key if its missing
+script_logger.debug("Checking for API key.")
 if not api_key:
+
+    script_logger.debug("No API key found, trying to find one...")
     # check to see if we can find the key in the /boot folder
-    key_file = '/boot/bot.key'
+    key_file = '/boot/wlanpi_bot.key'
 
     if exists(key_file):
-        script_logger.info(f"Found token file at {key_file}")
+        script_logger.info(f"Found key file at {key_file}")
 
-        script_logger.debug("Reading token file...")
+        script_logger.debug("Reading key file...")
         try: 
             with open(key_file, "r") as f:
                 api_key = f.readline().strip()
-            script_logger.info("Token file read OK.")
+            script_logger.info("Key file read OK.")
         except Exception as ex:
             script_logger.error(f"Issue reading bot key file {ex}")
 
@@ -61,13 +69,57 @@ if not api_key:
             conf_obj.config['telegram']["bot_token"] = api_key
 
         # remove the key file
+        script_logger.debug("Removing key file in boot partition...")
         try: 
             os.remove(key_file)
-            script_logger.info("Token file removed.")
+            script_logger.info("Key file removed.")
         except Exception as ex:
             script_logger.error(f"Issue removing bot key file {ex}")
 
         conf_obj.update_config()
+else:
+    script_logger.debug("API key value exists.")
+
+# Have a quick check to see if anyone left us a new wpa_supplicant file
+# to use as part of a plug n play boot up
+supplicant_boot_file = '/boot/wlanpi_wifi.conf'
+
+script_logger.debug("Checking for Wi-Fi supplicant file in boot partition.")
+
+if exists(supplicant_boot_file):
+        script_logger.info(f"Found supplicant boot file at {supplicant_boot_file}")
+        wpa_supplicant = "/etc/wpa_supplicant/wpa_supplicant.conf"
+        
+        #script_logger.debug(f"Copying {supplicant_boot_file} to {wpa_supplicant}")
+        #try: 
+            #shutil.copy(supplicant_boot_file, wpa_supplicant)
+            #script_logger.debug(f"Copied OK.")
+        #except Exception as ex:
+            #script_logger.error(f"Issue copying file {ex}")
+        
+        # remove the supplicant boot file
+        #script_logger.debug("Removing supplicant boot file.")
+        #try: 
+            #os.remove(supplicant_boot_file)
+            #script_logger.info("Supplicant boot file removed.")
+        #except Exception as ex:
+            #script_logger.error(f"Issue removing supplicant file {ex}")
+        
+        # move the supplicant boot file
+        script_logger.debug("Removing supplicant boot file.")
+        try: 
+            os.system(f'mv {supplicant_boot_file} {wpa_supplicant}')
+            script_logger.info("Supplicant boot file removed.")
+        except Exception as ex:
+            script_logger.error(f"Issue moving supplicant file {ex}")
+        
+        # unfortunately, we need to boot for the new supplicant
+        # settings to take effect     
+        script_logger.debug("Rebooting probe.")
+        os.system('sync; sleep 20; systemctl reboot > /tmp/reboot.txt 2>&1')
+        
+else:
+    script_logger.debug("No Wi-Fi supplicant file found in boot partition.")
 
 t = TelegramComms(api_key)
 
@@ -85,6 +137,7 @@ def main():
     online = False # start assuming offline
 
     # event loop
+    script_logger.debug("Starting main event loop.")
     while True:
 
         # handle missing API key to save just failing the service if its missing
@@ -221,8 +274,7 @@ def main():
                 t.send_msg(msg, chat, encode=encode)
         else:
             # we likely had a connectivity issue of some type....lets sleep
-            print("We're offline")
-            script_logger.debug("We appear to be offline, sleeping before next loop.")
+            script_logger.info("We appear to be offline, sleeping before next loop.")
             script_logger.error("We have a network connectivity issue. Sleeping before we try again.")
             online = False
             time.sleep(30)
