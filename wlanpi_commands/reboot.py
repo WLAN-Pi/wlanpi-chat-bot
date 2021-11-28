@@ -11,7 +11,7 @@ class Reboot(Command):
     
     def run(self, args_list):        
 
-        os.system('(sleep 2; systemctl reboot) &')
+        os.system('(sync; sleep 2; systemctl reboot) &')
         return self._render("Rebooting....please wait")
     
     def help(self):
