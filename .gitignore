@@ -1,4 +1,13 @@
-venv
+*__pycache__*
 *.pyc
-debian/wlanpi-chat-bot
-sftp.json
+.eggs/
+build/
+dist/
+*.log
+venv/
+*.egg-info/
+.pybuild/
+*.build
+*.deb
+*.buildinfo
+*.changes

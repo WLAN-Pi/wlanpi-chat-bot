@@ -1,24 +1,62 @@
-import setuptools
+# -*- coding: utf-8 -*-
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+import os
+from codecs import open
 
-setuptools.setup(
-    name="wiperf_chat_bot",
-    version="0.0.7",
-    author="WLAN Pi Team",
-    author_email="infol@wlanpi.com",
-    description="Telegram chatbot for the WLAN Pi",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="https://github.com/WLAN-Pi/wlanpi-chat-bot",
-    packages=setuptools.find_packages(),
-    install_requires=[ "requests", "wheel", "timeout_decorator", "psutil", "netifaces", "PyYAML"],
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: Free for non-commercial use",
-        "Operating System :: POSIX :: Linux",
+from setuptools import find_packages, setup
+
+# load the package's __version__.py module as a dictionary
+metadata = {}
+
+here = os.path.abspath(os.path.dirname(__file__))
+
+with open(os.path.join(here, "chat-bot", "__version__.py"), "r", "utf-8") as f:
+    exec(f.read(), metadata)
+
+extras = {
+    "development": [
+        "black",
+        "isort",
+        "mypy",
+        "flake8",
+        "pytest",
     ],
+}
+
+# fmt: off
+# Pillow must be on its own line otherwise Debian packaging will fail
+setup(
+    name=metadata["__title__"],
+    version=metadata["__version__"],
+    description=metadata["__description__"],
+    long_description=metadata["__description__"],
+    author=metadata["__author__"],
+    author_email=metadata["__author_email__"],
+    url=metadata["__url__"],
+    python_requires="~=3.7,",
+    license=metadata["__license__"],
+    platforms=["linux"],
+    packages=find_packages(),
+    install_requires=[
+        "requests==2.21.0",
+        "timeout_decorator==0.5.0",
+        "psutil==5.8.0",
+        "netifaces==0.11.0",
+        "PyYAML==6.0",
+    ],
+    extras_require=extras,
+    project_urls={
+        "Documentation": "https://docs.wlanpi.com",
+        "Source": metadata["__url__"],
+    },
+    classifiers=[
+        "Natural Language :: English",
+        "Development Status :: 3 - Alpha",
+        "Programming Language :: Python :: 3.7",
+        "Intended Audience :: System Administrators",
+        "Topic :: Utilities",
+    ],
+    keywords="Chat, Bot",
     include_package_data=True,
-    python_requires='>=3.7',
+    entry_points={"console_scripts": ["chat-bot=chat-bot.__main__:main"]},
 )
