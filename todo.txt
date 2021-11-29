@@ -1,6 +1,0 @@
-1. verb aliases
-2. trap errors on execution of commands
-3. improve help e.g. help set
-4. help response to ? to show other help options
-5. move all commands to yaml ?
-6. Pagination for responses > 4023 chars
