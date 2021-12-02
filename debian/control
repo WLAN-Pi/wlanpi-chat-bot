@@ -1,14 +1,25 @@
 Source: wlanpi-chat-bot
-Section: embedded
+Section: contrib/python
 Priority: extra
-Maintainer: Jiri Brejcha <jirka@jiribrejcha.net>
-Build-Depends: debhelper (>=9), build-essential
-Standards-Version: 3.9.8
-Homepage: https://github.com/WLAN-Pi/wlanpi-telegram-bot
+Maintainer: Nigel Bowden <wifinigel@gmail.com>
+Build-Depends: debhelper (>= 11), dh-python, dh-virtualenv (>= 1.1), python3,
+    python3-setuptools, python3-distutils, python3-dev, python3-venv, python3-tk,
+    tar, libtiff5-dev, libopenjp2-7-dev, zlib1g-dev, libfreetype6-dev, 
+    liblcms2-dev, libwebp-dev, tcl8.6-dev, tk8.6-dev, libharfbuzz-dev,
+    libfribidi-dev, libxcb1-dev
+Standards-Version: 3.9.5
+X-Python3-Version: >= 3.7
+Homepage: https://github.com/WLAN-Pi/wlanpi-chat-bot
 
 Package: wlanpi-chat-bot
 Architecture: any
-Multi-Arch: foreign
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: Chat Bot for the WLAN Pi
- This chat bot provides remote management for the WLAN Pi. It receives commands and returns output and files using Telegram and pontentially other IM services.
+Pre-Depends: dpkg (>= 1.16.1), python3, python3-distutils, ${misc:Pre-Depends}
+Depends: libopenjp2-7 ${misc:Depends}
+Description: Chat bot for the WLAN Pi
+    .
+    This is a distribution of "wlanpi-chat-bot" as a self-contained
+    Python virtualenv wrapped into a Debian package ("omnibus" package,
+    all passengers on board). The packaged virtualenv is kept in sync with
+    the host's interpreter automatically.
+    .
+    See https://github.com/spotify/dh-virtualenv for more details.

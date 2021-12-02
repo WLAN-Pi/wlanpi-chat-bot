@@ -1,3 +1,10 @@
 #!/bin/bash
 
-sudo python3 -m pip install psutil netifaces requests wheel timeout_decorator PyYAML
+# Enable SPI interface for OLED display
+#echo "Enabling SPI interface"
+#if grep -q -E "^?dtparam=spi=" /boot/config.txt; then
+#	sed -i 's/^#\?dtparam=spi=.*/dtparam=spi=on/' /boot/config.txt
+#else
+#	echo "dtparam=spi=on" >> /boot/config.txt
+#fi
+

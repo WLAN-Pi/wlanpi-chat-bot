@@ -1,0 +1,7 @@
+wlanpi-chat-bot.*.debhelper
+wlanpi-chat-bot.substvars
+wlanpi-chat-bot/
+wlanpi-chat-bot-*/
+files
+debhelper-build-stamp
+*.log

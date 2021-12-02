@@ -1,0 +1,8 @@
+[Unit]
+Description=Telegram chat bot the WLAN Pi
+
+[Service]
+ExecStart=/usr/sbin/chatbot
+
+[Install]
+WantedBy=multi-user.target
