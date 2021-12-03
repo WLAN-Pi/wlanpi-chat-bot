@@ -10,7 +10,7 @@ metadata = {}
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-with open(os.path.join(here, "chat-bot", "__version__.py"), "r", "utf-8") as f:
+with open(os.path.join(here, "chatbot", "__version__.py"), "r", "utf-8") as f:
     exec(f.read(), metadata)
 
 extras = {
@@ -58,5 +58,5 @@ setup(
     ],
     keywords="Chat, Bot",
     include_package_data=True,
-    entry_points={"console_scripts": ["chat-bot=chat-bot.__main__:main"]},
+    entry_points={"console_scripts": ["chat-bot=chatbot.__main__:main"]},
 )

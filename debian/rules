@@ -19,7 +19,7 @@
 export DH_VIRTUALENV_INSTALL_ROOT=/opt
 export PYBUILD_NAME=wlanpi-chat-bot
 SNAKE=/usr/bin/python3
-EXTRA_REQUIREMENTS=--upgrade-pip --preinstall "setuptools>=38" --preinstall "wheel" --extras=default
+EXTRA_REQUIREMENTS=--upgrade-pip --preinstall "setuptools>=38" --extras=default
 PACKAGE=$(shell dh_listpackages)
 VERSION=$(shell parsechangelog | grep ^Version: | sed -re 's/[^0-9]+([^-]+).*/\1/')
 
@@ -37,10 +37,10 @@ PKG_PREFIX=debian/wlanpi-chat-bot
 
 override_dh_virtualenv:
 	dh_virtualenv $(DH_VENV_ARGS)
-	$(DH_VENV_DIR)/bin/python $(DH_VENV_DIR)/bin/pip install -I --no-binary Pillow $(PILLOW_SPEC)
+#	$(DH_VENV_DIR)/bin/python $(DH_VENV_DIR)/bin/pip install -I --no-binary Pillow $(PILLOW_SPEC)
 
 override_dh_strip:
 	dh_strip --exclude=cffi --exclude=_imaging --exclude=libtiff
 	
 override_dh_shlibdeps:
-	dh_shlibdeps -X/Pillow.libs/ -X/PIL/ 
+#	dh_shlibdeps -X/Pillow.libs/ -X/PIL/ 
