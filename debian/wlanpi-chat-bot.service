@@ -2,7 +2,7 @@
 Description=Telegram chat bot the WLAN Pi
 
 [Service]
-ExecStart=/usr/sbin/chatbot
+ExecStart=python3 /opt/wlanpi-chat-bot/lib/python3.7/site-packages/chatbot/chatbot.py
 
 [Install]
 WantedBy=multi-user.target
