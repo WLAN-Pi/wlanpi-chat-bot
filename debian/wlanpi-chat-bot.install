@@ -1,3 +1,4 @@
 /chatbot/utils/verbs.yml /opt/wlanpi-chat-bot/lib/python3.7/site-packages/chatbot/utils
 /chatbot/etc/config.json /opt/wlanpi-chat-bot/etc
 /chatbot/scripts /opt/wlanpi-chat-bot
+/chatbot/wlanpi_commands/yaml /opt/wlanpi-chat-bot/wlanpi_commands
