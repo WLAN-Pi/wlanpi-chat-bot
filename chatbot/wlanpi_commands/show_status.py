@@ -1,14 +1,16 @@
-from .command import Command
-from utils.node_data_snapshot import DataSnapshot
 import os
 
+from chatbot.utils.node_data_snapshot import DataSnapshot
+
+from .command import Command
+
+
 class ShowStatus(Command):
-    
     def __init__(self, telegram_object, conf_obj):
         super().__init__(telegram_object, conf_obj)
 
         self.command_name = "show_status"
-    
+
     def run(self, args_list):
 
         # remove snapshot file & re-init snapshot

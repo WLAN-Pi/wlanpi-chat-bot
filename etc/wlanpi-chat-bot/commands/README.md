@@ -6,7 +6,7 @@ They must be a simple call that returns a block of text that can be displayed in
 
 To add a command, simply create a yml file to the `wlanpi-commands/yaml` directory, formatted as shown below.
 
-# Example
+## Example
 
 ```
 ---

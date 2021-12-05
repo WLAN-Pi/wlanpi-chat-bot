@@ -1,3 +1,4 @@
 include LICENSE
-include chat-bot/AUTHORS.md
+include chatbot/AUTHORS.md
+include chatbot/utils/verbs.yml
 global-exclude *.pyc
