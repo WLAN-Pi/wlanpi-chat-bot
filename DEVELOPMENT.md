@@ -47,7 +47,7 @@ source venv/bin/activate
 2. We need to run chat-bot as sudo, which means we'll need to pass along the location of the Python environment to sudo like this:
 
 ```
-sudo venv/bin/python3 -m chat-bot
+sudo venv/bin/python3 -m chatbot
 ```
 
 Further reading on executing modules with Python at <https://docs.python.org/3/library/runpy.html>.
@@ -59,5 +59,5 @@ Is your development environment already setup?
 ```
 cd <root of repo>
 source venv/bin/activate
-sudo venv/bin/python3 -m chat-bot
+sudo venv/bin/python3 -m chatbot
 ```

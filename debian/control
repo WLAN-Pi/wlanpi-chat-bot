@@ -2,19 +2,22 @@ Source: wlanpi-chat-bot
 Section: contrib/python
 Priority: extra
 Maintainer: Nigel Bowden <wifinigel@gmail.com>
-Build-Depends: debhelper (>= 11), dh-python, dh-virtualenv (>= 1.1), python3,
-    python3-setuptools, python3-distutils, python3-dev, python3-venv, python3-tk,
-    tar, libtiff5-dev, libopenjp2-7-dev, zlib1g-dev, libfreetype6-dev, 
-    liblcms2-dev, libwebp-dev, tcl8.6-dev, tk8.6-dev, libharfbuzz-dev,
-    libfribidi-dev, libxcb1-dev
-Standards-Version: 3.9.5
+Build-Depends: debhelper (>= 11),
+               dh-python,
+               dh-virtualenv (>= 1.1),
+               python3,
+               python3-dev, 
+               python3-setuptools,
+               python3-distutils,
+               python3-venv
+Standards-Version: 4.6.0
 X-Python3-Version: >= 3.7
 Homepage: https://github.com/WLAN-Pi/wlanpi-chat-bot
 
 Package: wlanpi-chat-bot
 Architecture: any
 Pre-Depends: dpkg (>= 1.16.1), python3, python3-distutils, ${misc:Pre-Depends}
-Depends: libopenjp2-7 ${misc:Depends}
+Depends: ${misc:Depends}
 Description: Chat bot for the WLAN Pi
     .
     This is a distribution of "wlanpi-chat-bot" as a self-contained

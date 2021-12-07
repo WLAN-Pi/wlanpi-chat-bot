@@ -1,29 +1,33 @@
-import yaml
-import sys
+import os
 import re
 
+import yaml
+
 # read in the verb definitions from yaml file
-with open(sys.path[0] + '/utils/verbs.yml', 'r') as f:
+with open(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "verbs.yml"), "r"
+) as f:
 
-        # read in yaml file & parse in to dict
-        try:
-            data_dict = (yaml.safe_load(f))
-        except yaml.YAMLError as exc:
-            print("YAML file read error : {}".format(exc))
-            exit()
+    # read in yaml file & parse in to dict
+    try:
+        data_dict = yaml.safe_load(f)
+    except yaml.YAMLError as exc:
+        print("YAML file read error : {}".format(exc))
+        exit()
 
-supported_verbs = data_dict['supported_verbs']
-no_noun = data_dict['no_noun']
-verb_combos = data_dict['verb_combos']
+supported_verbs = data_dict["supported_verbs"]
+no_noun = data_dict["no_noun"]
+verb_combos = data_dict["verb_combos"]
+
 
 def sanitize_args(args):
 
     clean_args = []
 
     for arg in args:
-        clean_arg = re.sub('[;`<>|]', '', arg)
+        clean_arg = re.sub("[;`<>|]", "", arg)
         clean_args.append(clean_arg)
-    
+
     return clean_args
 
 
@@ -32,14 +36,15 @@ def verb_expander(cmd_verb):
     for verb, abbr_list in verb_combos.items():
         if cmd_verb in abbr_list:
             return verb
-    
+
     # no match, return False
     return False
+
 
 def parse_cmd(cmd_text, command_list):
 
     """
-    Function to parse a string passed to this parser to find a match 
+    Function to parse a string passed to this parser to find a match
     for one of the listed commands in the supported commands list
 
     The function also supports expansion of abbreviations of command
@@ -72,26 +77,26 @@ def parse_cmd(cmd_text, command_list):
     # tokenize & extract noun
     tokens = cmd_text.split()
     verb = tokens[0]
-    nouns =  tokens[1:]
+    nouns = tokens[1:]
     args = []
 
     # check verb for possible abbreviation expansion
     if verb not in supported_verbs:
         verb = verb_expander(verb)
-    
+
     if not verb:
-        return [ False, [] ]
-    
+        return [False, []]
+
     cmd = verb
     arg_start = 1
-    
+
     # this branch deals with a verb only command (e.g. ping)
     if verb in no_noun:
 
         # if nouns list is zero, we may have a single verb cmd (e.g. speedtest)
         if len(nouns) == 0:
             if verb in no_noun:
-                return [ cmd, [] ]
+                return [cmd, []]
         else:
             if cmd in command_list:
                 # we got a match, slice off args and return the command
@@ -119,11 +124,6 @@ def parse_cmd(cmd_text, command_list):
 
                 # format: [ str, list ]
                 return [cmd, sanitize_args(args)]
-    
+
     # no match, return False
-    return [ False, [] ]
-    
-
-
-
-    
+    return [False, []]

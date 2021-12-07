@@ -24,7 +24,6 @@ extras = {
 }
 
 # fmt: off
-# Pillow must be on its own line otherwise Debian packaging will fail
 setup(
     name=metadata["__title__"],
     version=metadata["__version__"],
@@ -53,10 +52,11 @@ setup(
         "Natural Language :: English",
         "Development Status :: 3 - Alpha",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.9",
         "Intended Audience :: System Administrators",
         "Topic :: Utilities",
     ],
-    keywords="Chat, Bot",
+    keywords="Chat, Bot, Chatbot",
     include_package_data=True,
-    entry_points={"console_scripts": ["chat-bot=chatbot.__main__:main"]},
+    entry_points={"console_scripts": ["chatbot=chatbot.__main__:main"]},
 )

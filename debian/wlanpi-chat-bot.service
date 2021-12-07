@@ -1,8 +1,8 @@
 [Unit]
-Description=Telegram chat bot the WLAN Pi
+Description=Telegram chatbot the WLAN Pi
 
 [Service]
-ExecStart=python3 /opt/wlanpi-chat-bot/lib/python3.7/site-packages/chatbot/chatbot.py
+ExecStart=/usr/sbin/chatbot
 
 [Install]
 WantedBy=multi-user.target

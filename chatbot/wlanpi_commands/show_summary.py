@@ -1,30 +1,31 @@
-from .command import Command
 import socket
 import subprocess
 
+from .command import Command
+
+
 class ShowSummary(Command):
-    
     def __init__(self, telegram_object, conf_obj):
         super().__init__(telegram_object, conf_obj)
 
         self.command_name = "show_summary"
-    
+
     def run(self, args_list):
-        
+
         # Taken from FPMS...
 
         # figure out our IP
-        IP = ''
+        IP = ""
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
             # doesn't even have to be reachable
-            s.connect(('10.255.255.255', 1))
+            s.connect(("10.255.255.255", 1))
             IP = s.getsockname()[0]
         except:
-            IP = '127.0.0.1'
+            IP = "127.0.0.1"
         finally:
             s.close()
-        
+
         # determine CPU load
         cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
         try:
@@ -40,7 +41,7 @@ class ShowSummary(Command):
             MemUsage = "unknown"
 
         # determine disk util
-        cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
+        cmd = 'df -h | awk \'$NF=="/"{printf "Disk: %d/%dGB %s", $3,$2,$5}\''
         try:
             Disk = subprocess.check_output(cmd, shell=True).decode()
         except:
@@ -48,12 +49,12 @@ class ShowSummary(Command):
 
         # determine temp
         try:
-            tempI = int(open('/sys/class/thermal/thermal_zone0/temp').read())
+            tempI = int(open("/sys/class/thermal/thermal_zone0/temp").read())
         except:
             tempI = "unknown"
 
         if tempI > 1000:
-            tempI = tempI/1000
+            tempI = tempI / 1000
         tempStr = "CPU TEMP: %sC" % str(tempI)
 
         results = [
@@ -62,7 +63,7 @@ class ShowSummary(Command):
             str(CPU),
             str(MemUsage),
             str(Disk),
-            tempStr
+            tempStr,
         ]
 
         return self._render(results)

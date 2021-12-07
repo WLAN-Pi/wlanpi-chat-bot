@@ -1,19 +1,21 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import psutil
 import time
+
+import psutil
+
 
 class Uptime(object):
 
-    '''
+    """
     A class that returns the probe uptime
-    '''
+    """
 
     def __init__(self):
 
         pass
-    
+
     def get_uptime(self, format="string"):
         """[summary]
 
@@ -28,9 +30,8 @@ class Uptime(object):
         if format == "raw":
             return seconds
 
-        min, sec = divmod(seconds, 60) 
+        min, sec = divmod(seconds, 60)
         hour, min = divmod(min, 60)
         day, hour = divmod(hour, 24)
-        
-        return "%d days %d:%02d:%02d" % (day, hour, min, sec)
 
+        return "%d days %d:%02d:%02d" % (day, hour, min, sec)
