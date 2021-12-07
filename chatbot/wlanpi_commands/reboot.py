@@ -30,4 +30,4 @@ syntax: reboot"""
         if self.display_mode == "compact":
             return short_msg
         else:
-            return utils.emojis.help() + " " + long_msg
+            return chatbot.utils.emojis.help() + " " + long_msg

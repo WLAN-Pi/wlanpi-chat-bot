@@ -231,8 +231,8 @@ def main():
                     )
 
                 # open those easter eggs kids!
-                elif text in utils.useful.cmds.keys():
-                    msg = utils.useful.cmds[text]()
+                elif text in chatbot.utils.useful.cmds.keys():
+                    msg = chatbot.utils.useful.cmds[text]()
 
                 elif text in ["in", "inf", "info"]:
                     # show boot msg

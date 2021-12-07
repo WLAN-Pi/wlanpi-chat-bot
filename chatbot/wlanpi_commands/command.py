@@ -112,7 +112,7 @@ class Command:
         short_msg = "Short default help msg"
         long_msg = (
             "Help: If you see this help message, Nigel and Jiri haven't yet defined a help msg for this command.\n Drop them a note to tell them to stop drinking beer/coffee and get coding..! "
-            + utils.emojis.coffee()
+            + chatbot.utils.emojis.coffee()
         )
 
         if self.display_mode == "compact":

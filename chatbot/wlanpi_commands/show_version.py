@@ -3,6 +3,7 @@ import os
 import chatbot.utils.emojis
 
 from .command import Command
+from chatbot.__version__ import __version__
 
 
 class ShowVersion(Command):
@@ -14,8 +15,7 @@ class ShowVersion(Command):
     def run(self, args_list):
 
         WLANPI_IMAGE_FILE = "/etc/wlanpi-release"
-        BOT_VER_FILE = "/opt/wlanpi-chat-bot/version.txt"
-
+        
         version_string = ""
 
         if os.path.isfile(WLANPI_IMAGE_FILE):
@@ -32,17 +32,8 @@ class ShowVersion(Command):
         else:
             version_string = "WLAN Pi: unknown"
 
-        if os.path.isfile(BOT_VER_FILE):
-            with open(BOT_VER_FILE, "r") as botf:
-                # version file is singe line
-                version = botf.readline()
-
-            if version:
-                version = version.strip()
-                version_string += "\nBot: " + version
-        else:
-            version_string += "\nBot: unknown"
-
+        version_string += "\nBot: " +  __version__
+        
         return self._render(version_string)
 
     def help(self):
@@ -59,4 +50,4 @@ syntax: show ver"""
         if self.display_mode == "compact":
             return short_msg
         else:
-            return utils.emojis.help() + " " + long_msg
+            return chatbot.utils.emojis.help() + " " + long_msg

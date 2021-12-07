@@ -83,7 +83,7 @@ class YamlCommand:
         # send status msg
         if progress_msg:
             if self.emoji:
-                emoji = eval("utils.emojis." + self.emoji + "()")
+                emoji = eval("chatbot.utils.emojis." + self.emoji + "()")
                 progress_msg = emoji + progress_msg
 
             chat_id = self.telegram_object.chat_id
@@ -100,14 +100,18 @@ class YamlCommand:
 
         except subprocess.CalledProcessError as exc:
             output = exc.output.decode()
-            error = "Err: {}".format(output)
-            # self.telegram_object.send_msg(error, chat_id)
-            return self._render(utils.emojis.bad() + error)
+            if output:
+                error = "Err: {}".format(output)
+                # self.telegram_object.send_msg(error, chat_id)
+                return self._render(chatbot.utils.emojis.bad() + error)
+            else:
+                return self._render(chatbot.utils.emojis.bad() + f"problem getting output from '{cmd_string}'")
+
 
         if len(cmd_info) == 0:
             cmd_info.append("No output sorry")
 
-        return self._render([utils.emojis.good() + " OK"] + cmd_info)
+        return self._render([chatbot.utils.emojis.good() + " OK"] + cmd_info)
 
     def help(self):
         """
@@ -119,4 +123,4 @@ class YamlCommand:
         if self.display_mode == "compact":
             return short_msg
         else:
-            return utils.emojis.help() + " " + long_msg
+            return chatbot.utils.emojis.help() + " " + long_msg

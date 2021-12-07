@@ -17,7 +17,7 @@ class Speedtest(Command):
         chat_id = self.telegram_object.chat_id
         self.telegram_object.send_msg(
             "{} Running speedtest...please wait {}".format(
-                utils.emojis.graph(), utils.emojis.hour_glass()
+                chatbot.utils.emojis.graph(), chatbot.utils.emojis.hour_glass()
             ),
             chat_id,
         )
@@ -56,4 +56,4 @@ It provides the upload and download speed from the probe to the Internet.
         if self.display_mode == "compact":
             return short_msg
         else:
-            return utils.emojis.help() + " " + long_msg
+            return chatbot.utils.emojis.help() + " " + long_msg
