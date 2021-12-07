@@ -2,9 +2,6 @@
 name: Build Debian Package On PR
 
 on:
-  push:
-    paths:
-      - 'debian/changelog'
   pull_request:
     paths:
       - 'debian/changelog'
