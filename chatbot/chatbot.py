@@ -48,7 +48,7 @@ if not conf_obj.config.get("telegram", None):
     conf_obj.config["telegram"]["chat_id"] = ""
     conf_obj.config["telegram"]["display_mode"] = "full"
     conf_obj.config["telegram"]["display_width"] = "30"
-    conf_obj.config["telegram"]["yaml_cmds"] = "/etc/wlanpi-chat-bot/commands"
+    conf_obj.config["telegram"]["yaml_cmds"] = "/opt/wlanpi-chat-bot/etc/commands"
 
 api_key = conf_obj.config["telegram"]["bot_token"]
 chat_id = False  # we may not know our chat_id initially...
