@@ -1,7 +1,7 @@
 import socket
 import subprocess
 
-import utils.emojis
+import chatbot.utils.emojis
 from .command import Command
 
 
@@ -59,7 +59,7 @@ class ShowSummary(Command):
         tempStr = "CPU TEMP: %sC" % str(tempI)
 
         results = [
-            utils.emojis.blue_circle() + " System Summary Info:",
+            chatbot.utils.emojis.blue_circle() + " System Summary Info:",
             "IP: {}".format(IP),
             str(CPU),
             str(MemUsage),
