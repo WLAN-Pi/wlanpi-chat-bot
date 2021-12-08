@@ -15,7 +15,6 @@ Thank you Gareth.
 """
 import logging
 import os
-import sys
 import time
 from os.path import exists
 
@@ -25,9 +24,9 @@ from .transports.telegram_comms import TelegramComms
 from .utils.check_telegram_available import CheckTelegram
 from .utils.config import Config
 from .utils.node_data_snapshot import DataSnapshot
-from .utils.parser import parse_cmd
+from .utils.parser import parse_cmd, noun_combos
 from .utils.status import get_status
-from .wlanpi_commands.command import Command, register_commands
+from .wlanpi_commands.command import register_commands
 
 logging.basicConfig(level=logging.INFO)
 script_logger = logging.getLogger("TelegramAlert")
@@ -94,6 +93,9 @@ tc = CheckTelegram()
 
 # register all commands ready to use later
 GLOBAL_CMD_DICT = register_commands(t, conf_obj)
+
+# prime noun list with all acceptable abbreviations
+noun_combos = noun_combos(GLOBAL_CMD_DICT)
 
 if "chat_id" in conf_obj.config["telegram"].keys():
     chat_id = conf_obj.config["telegram"]["chat_id"]
@@ -189,8 +191,6 @@ def main():
                     conf_obj.config["telegram"]["chat_id"] = chat
                     conf_obj.update_config()
 
-                # normalize text case  - note removed as breakin case-sensitive args
-                # text = text.lower()
                 # cleanup whitespace (inc trailing & leading space)
                 text = " ".join(text.split())
 
@@ -207,7 +207,7 @@ def main():
 
                 # parse command and expand any shortening of verbs (run, show, set, exec)
                 script_logger.debug("Parse command.")
-                [command, args_list] = parse_cmd(text, command_list)
+                [command, args_list] = parse_cmd(text, command_list, noun_combos)
 
                 msg = "blank"
                 encode = True
@@ -220,7 +220,7 @@ def main():
                     else:
                         msg = "Unknown command.  Try '?' "
 
-                elif text == "?" or text == "help":
+                elif text == "?":
                     # provide list of all commands
                     msg = ["Available commands:\n"]
                     fixed_command_list = [e.replace("_", " ") for e in command_list]
@@ -229,6 +229,9 @@ def main():
                         + fixed_command_list
                         + ['(Type "info" for startup status msg)']
                     )
+                
+                elif text == 'help':
+                    msg = chatbot.utils.useful.help()
 
                 # open those easter eggs kids!
                 elif text in chatbot.utils.useful.cmds.keys():
@@ -237,7 +240,6 @@ def main():
                 elif text in ["in", "inf", "info"]:
                     # show boot msg
                     msg = get_status()
-                    encode = False
 
                 elif command in command_list:
                     script_logger.debug(f"Command sent: {command}, (args: {args_list})")

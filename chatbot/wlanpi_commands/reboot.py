@@ -14,7 +14,8 @@ class Reboot(Command):
     def run(self, args_list):
 
         os.system("(sync; sleep 2; systemctl reboot) &")
-        return self._render("Rebooting....please wait")
+        restart_emoji = chatbot.utils.emojis.restart()
+        return self._render(f"{restart_emoji} Rebooting....please wait {restart_emoji}")
 
     def help(self):
         """
