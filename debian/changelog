@@ -1,3 +1,9 @@
+wlanpi-chat-bot (1.0.3) unstable; urgency=medium
+
+  * Move package scripts/commands/config to /opt/wlanpi-chat-bot/etc
+
+ --  Josh Schmelzle <josh@joshschmelzle.com>  Tue, 07 Dec 2021 19:40:33 -0500
+
 wlanpi-chat-bot (1.0.2) unstable; urgency=medium
 
   * Initial deploy to packagecloud

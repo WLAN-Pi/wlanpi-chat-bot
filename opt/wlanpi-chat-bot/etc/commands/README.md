@@ -1,10 +1,10 @@
 # Adding YAML Commands
 
-Commands may be added to the chatbot using a call to an existing external script.
+Custom chat commands may be added using calls to existing scripts which live outside of wlanpi-chat-bot.
 
 They must be a simple call that returns a block of text that can be displayed in the chat bot window.
 
-To add a command, simply create a yml file to the `wlanpi-commands/yaml` directory, formatted as shown below.
+To add a command, create a yml file to the `wlanpi-commands/yaml` directory, formatted as shown below:
 
 ## Example
 
@@ -26,3 +26,9 @@ All files must contain the following fields:
  - emoji: name of an emoji in emojis.py (can be empty value if none required)
  - help_short: string to be shown in compact display mode
  - help_long: string to be shown in full display mode
+
+ ## Contributing
+
+Please do not ask a maintainer to troubleshoot your custom commands.
+
+If you feel a command or set of commands you've created would benefit the community, feel free to fork and submit a pull request. Thanks!

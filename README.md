@@ -4,6 +4,8 @@
 
 A telegram chat bot for the WLAN Pi.
 
+*** WARNING: this project is currently unstable and under development ***
+
 ## Commands
 
 The following commands are available from the chat bot to gather info from the WLAN Pi or initiate actions:
@@ -36,9 +38,9 @@ To see the list of commands available, type `help` or `?` when sending messages 
 
 ![Screenshot](chatbot/images/screenshot.png)
 
-## Debian Package Build/Install
+## Debian Packaging
 
-*** WARNING: this project is still under development ***
+If you'd like to build the Debian package yourself, review the following instructions.
 
 Install build depends:
 
@@ -67,7 +69,7 @@ cd ..
 sudo apt install ./wlanpi-chat-bot_1.0.0_armhf.deb 
 
 # Configure your Telegram API key
-sudo nano /etc/wlanpi-chat-bot/config.json
+sudo nano /opt/wlanpi-chat-bot/etc/config.json
 
 # Restart twice so that Chat ID is obtained and you receive a new status message from the bot
 sudo systemctl restart wlanpi-chat-bot; sleep 5; sudo systemctl restart wlanpi-chat-bot 
@@ -78,13 +80,14 @@ sudo apt remove wlanpi-chat-bot
 # Remove the package completely including Chat Bot config file with your API key
 sudo apt purge wlanpi-chat-bot
 ```
-# Configure Chat-Bot
+
+## Configure Chat-Bot
 
 1. Create a new Telegram account if you do not have one already. Start the Telegram app.
 2. Let’s create a new Telegram bot. Find a person called Botfather and send them a message saying /newbot.
 3. Follow the instructions to create a new bot.
 4. After the new bot is created, copy the API key to a text editor.
-5. Edit the file `/opt/wlanpi-chat-bot/etc/config.json` and enter your API key in to the the "bot_token" field:
+5. Edit the file `/opt/wlanpi-chat-bot/etc/config.json` and enter your API key in to the the `"bot_token"` field:
 
 ```
 {
@@ -93,7 +96,7 @@ sudo apt purge wlanpi-chat-bot
         "chat_id": "",
         "display_mode": "full",
         "display_width": "30",
-        "yaml_cmds": "/opt/wlanpi-chat-bot/wlanpi_commands/yaml"
+        "yaml_cmds": "/opt/wlanpi-chat-bot/etc/commands"
     }
 }
 ```

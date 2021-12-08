@@ -4,6 +4,6 @@
         "chat_id": "",
         "display_mode": "full",
         "display_width": "30",
-        "yaml_cmds": "/etc/wlanpi-chat-bot/commands"
+        "yaml_cmds": "/opt/wlanpi-chat-bot/etc/commands"
     }
 }
