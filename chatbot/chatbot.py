@@ -12,9 +12,18 @@ You can find the article at:
 https://www.codementor.io/@garethdwyer/building-a-telegram-bot-using-python-part-1-goi5fncay
 
 Thank you Gareth.
+
+TODO: 
+    1. Pre-process commands
+    2. Process commands
+    3. Turn parser in to object
+    4. Verb combos list
+    5. Support "help sh" to display all commands that start with "sh" (for example)
 """
 import logging
 import os
+import signal
+import sys
 import time
 from os.path import exists
 
@@ -24,7 +33,7 @@ from .transports.telegram_comms import TelegramComms
 from .utils.check_telegram_available import CheckTelegram
 from .utils.config import Config
 from .utils.node_data_snapshot import DataSnapshot
-from .utils.parser import parse_cmd, noun_combos
+from .utils.parser import Parser
 from .utils.status import get_status
 from .wlanpi_commands.command import register_commands
 
@@ -95,13 +104,21 @@ tc = CheckTelegram()
 GLOBAL_CMD_DICT = register_commands(t, conf_obj)
 
 # prime noun list with all acceptable abbreviations
-noun_combos = noun_combos(GLOBAL_CMD_DICT)
+parser_obj = Parser(GLOBAL_CMD_DICT)
 
 if "chat_id" in conf_obj.config["telegram"].keys():
     chat_id = conf_obj.config["telegram"]["chat_id"]
 
+# handle Ctrl-C input
+def handler(signal_received, frame):
+    script_logger.info("Chat-bot: Ctrl-C hit.")
+    sys.exit(0)
+
 
 def main():
+
+    signal.signal(signal.SIGINT, handler)
+    
     last_update_id = None
     online = False  # start assuming offline
 
@@ -158,10 +175,12 @@ def main():
             # use of rapid upstream polling of Telegram bot to check for new messages)
             #
             # Pass the ID of last rec'd message to ack message and stop it being sent again
-            try:
-                script_logger.debug("Checking for messages (long poll start).")
-                updates = t.get_updates(last_update_id)
-            except:
+            #try:
+            script_logger.debug("Checking for messages (long poll start).")
+            updates = t.get_updates(last_update_id)
+
+            if not updates:
+                # no update received, must have timed out
                 script_logger.debug(
                     "Long poll timed out (maybe network changed?), restarting poll cycle."
                 )
@@ -207,7 +226,7 @@ def main():
 
                 # parse command and expand any shortening of verbs (run, show, set, exec)
                 script_logger.debug("Parse command.")
-                [command, args_list] = parse_cmd(text, command_list, noun_combos)
+                [command, args_list] = parser_obj.parse_cmd(text)
 
                 msg = "blank"
                 encode = True
