@@ -1,6 +1,6 @@
 ---
  command: service_start
- exec: "systemctl start "
+ exec: "systemctl start $args$ 2>&1"
  progress_msg: Starting service...
  emoji: start
  help_short: "service start: Start a named service (e.g. service start servicename)"

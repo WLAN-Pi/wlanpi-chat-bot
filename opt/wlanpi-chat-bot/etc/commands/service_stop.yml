@@ -1,6 +1,6 @@
 ---
  command: service_stop
- exec: "systemctl stop "
+ exec: "systemctl stop $args$ 2>&1"
  progress_msg: Stopping service...
  emoji: stop
  help_short: "service stop: Stop a named service (e.g. service stop servicename)"

@@ -1,6 +1,6 @@
 ---
  command: service_restart
- exec: "systemctl restart "
+ exec: "systemctl restart $args$ 2>&1"
  progress_msg: Restarting service...
  emoji: restart
  help_short: "service restart: Restart a named service (e.g. service restart servicename)"
