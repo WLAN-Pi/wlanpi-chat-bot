@@ -1,3 +1,9 @@
+wlanpi-chat-bot (1.0.5) unstable; urgency=medium
+
+  * Add ctrl-C handling, add parser object & remove need for verbs.yml file
+
+ --  Nigel Bowden <wifinigel@gmail.com>  Wed, 11 Dec 2021 22:34:55 +0000
+
 wlanpi-chat-bot (1.0.4) unstable; urgency=medium
 
   * Add support for minimum unique nouns in commands
