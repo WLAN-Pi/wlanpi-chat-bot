@@ -13,12 +13,6 @@ https://www.codementor.io/@garethdwyer/building-a-telegram-bot-using-python-part
 
 Thank you Gareth.
 
-TODO: 
-    1. Pre-process commands
-    2. Process commands
-    3. Turn parser in to object
-    4. Verb combos list
-    5. Support "help sh" to display all commands that start with "sh" (for example)
 """
 import logging
 import os
