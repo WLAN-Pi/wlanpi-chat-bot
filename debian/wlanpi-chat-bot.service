@@ -1,5 +1,5 @@
 [Unit]
-Description=Telegram chatbot the WLAN Pi
+Description=Telegram chatbot for the WLAN Pi
 After=network.target
 
 [Service]
