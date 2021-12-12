@@ -1,3 +1,9 @@
+wlanpi-chat-bot (1.0.6) unstable; urgency=medium
+
+  * Follow WLAN Pi conventions for configuration files.
+
+ -- Josh Schmelzle <josh@joshschmelzle.com>  Sat, 11 Dec 2021 21:04:32 -0500
+
 wlanpi-chat-bot (1.0.5) unstable; urgency=medium
 
   * Add ctrl-C handling, add parser object & remove need for verbs.yml file
