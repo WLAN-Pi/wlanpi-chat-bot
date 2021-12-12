@@ -33,7 +33,6 @@ show hostname
 show lldp
 show mode
 show publicip
-show publicip6
 show reachability
 show regdomain
 show status
@@ -72,7 +71,7 @@ Clone and install the package:
 # Build the deb package
 git clone https://github.com/WLAN-Pi/wlanpi-chat-bot.git
 cd wlanpi-telegram-bot
-sudo dpkg-buildpackage -us -uc
+cd .
 
 # The deb package is here
 cd ..
