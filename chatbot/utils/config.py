@@ -8,7 +8,7 @@ Manipulate the global config file
 import json
 import logging
 
-config_file = "/opt/wlanpi-chat-bot/etc/config.json"
+config_file = "/etc/wlanpi-chat-bot/config.json"
 
 logging.basicConfig(level=logging.INFO)
 class_logger = logging.getLogger("Config")
