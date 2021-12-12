@@ -18,7 +18,7 @@ if [ -z "$NEIGHBOUR" ]; then
 fi
 
 #Get public IP data
-DATAINJSON=$(timeout 3 curl -s 'ifconfig.co/json')
+DATAINJSON=$(timeout 3 curl -s --ipv4 'ifconfig.co/json')
 PUBLICIP=$(echo "$DATAINJSON" | jq -r '.ip')
 PUBLICIPCOUNTRY=$(echo "$DATAINJSON" | jq -r '.country')
 PUBLICIPASNORG=$(echo "$DATAINJSON" | jq -r '.asn_org')

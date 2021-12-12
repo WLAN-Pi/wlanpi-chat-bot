@@ -2,6 +2,7 @@ import socket
 import subprocess
 
 import chatbot.utils.emojis
+
 from .command import Command
 
 

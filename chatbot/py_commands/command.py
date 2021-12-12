@@ -2,9 +2,8 @@ import glob
 import os
 import subprocess
 
-import yaml
-
 import chatbot.utils.emojis
+import yaml
 
 
 class Command:
@@ -121,12 +120,11 @@ class Command:
             return long_msg
 
 
+# import our commands
 from .iperf import Iperf
 from .iperf3 import Iperf3
 from .ping import Ping
 from .reboot import Reboot
-
-# import our commands
 from .set_display_mode import SetDisplayMode
 from .set_display_width import SetDisplayWidth
 from .show_mode import ShowMode
@@ -159,7 +157,7 @@ def register_commands(telegram_object, conf_obj):
 
     # Read all available command files
     yaml_files = glob.glob("{}/*.yml".format(conf_obj.config["telegram"]["yaml_cmds"]))
-
+    yaml_files.sort()
     # import yaml command object
     from .command_yaml import YamlCommand
 
@@ -188,5 +186,5 @@ def register_commands(telegram_object, conf_obj):
 
             # add the new command to the global command dict
             GLOBAL_CMD_DICT[yaml_cmd_obj.command_name] = yaml_cmd_obj
-
+            
     return GLOBAL_CMD_DICT
