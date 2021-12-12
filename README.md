@@ -80,7 +80,7 @@ cd ..
 sudo apt install ./wlanpi-chat-bot_1.0.0_armhf.deb 
 
 # Configure your Telegram API key
-sudo nano /opt/wlanpi-chat-bot/etc/config.json
+sudo nano /etc/wlanpi-chat-bot/config.json
 
 # Restart twice so that Chat ID is obtained and you receive a new status message from the bot
 sudo systemctl restart wlanpi-chat-bot; sleep 5; sudo systemctl restart wlanpi-chat-bot 
