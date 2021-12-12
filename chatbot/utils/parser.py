@@ -1,5 +1,6 @@
 import re
 
+
 class Parser:
 
     """
@@ -10,7 +11,7 @@ class Parser:
 
         self.supported_verbs = []
         self.supported_nouns = []
-        self.no_noun = [] # cmds that are verb only (e.g.ping)
+        self.no_noun = []  # cmds that are verb only (e.g.ping)
         self.verb_combos_dict = {}
         self.noun_combos_dict = {}
 
@@ -21,8 +22,6 @@ class Parser:
         self.verb_combos(global_cmd_dict)
         self.noun_combos(global_cmd_dict)
 
-
-
     def sanitize_args(self, args):
         """
         clean up any dodgy chars to stop bad
@@ -30,13 +29,12 @@ class Parser:
         we'd prefer they don't do
         """
         clean_args = []
-        
+
         for arg in args:
             clean_arg = re.sub("[;`<>|]", "", arg)
             clean_args.append(clean_arg)
 
         return clean_args
-
 
     def verb_expander(self, cmd_verb):
         """
@@ -55,7 +53,7 @@ class Parser:
 
         # no match, return False
         return False
-    
+
     def noun_expander(self, cmd_noun):
         """
         Expand a possible noun abbrevation if found in combo list
@@ -74,11 +72,10 @@ class Parser:
         # no match, return False
         return False
 
-
     def combo_engine(self, word_list):
         """
         Take the supplied word ist and create all possible
-        unique combinations down to 2 chars 
+        unique combinations down to 2 chars
 
         Args:
             word_list (list): list of words to be processed
@@ -101,7 +98,7 @@ class Parser:
             # step through combos, from longest to shortest (min 2 chars)
             # if already exists, this indicate a duplicate, so flag for
             # removal
-            for length in range(len(word)-1, 1, -1):
+            for length in range(len(word) - 1, 1, -1):
 
                 new_entry = word[0:length]
 
@@ -111,21 +108,20 @@ class Parser:
                 else:
                     word_combos[new_entry] = word
 
-        # tidy up duplicates    
+        # tidy up duplicates
         # make a copy so we don't break iteration
         word_combos_copy = word_combos.copy()
-        
+
         for word_variant in word_combos_copy.keys():
 
             if word_combos_copy[word_variant] == "remove_me":
                 del word_combos[word_variant]
-        
-        return word_combos
 
+        return word_combos
 
     def verb_combos(self, command_dict):
         """
-        Figure out all possible verb combinations so that a 
+        Figure out all possible verb combinations so that a
         noun can be types with a minimum unique combination
         of characters (e.g. type "sh" instead of show)
 
@@ -149,7 +145,7 @@ class Parser:
         # build list of verbs
         for command in self.command_list:
 
-            verb = ''
+            verb = ""
 
             # check this isn't a noun-only cmd
             if "_" in command:
@@ -166,10 +162,9 @@ class Parser:
 
         self.verb_combos_dict = self.combo_engine(self.supported_verbs)
 
-
     def noun_combos(self, command_dict):
         """
-        Figure out all possible noun combinations so that a 
+        Figure out all possible noun combinations so that a
         noun can be types with a minimum unique combination
         of characters (e.g. type "sh" instead of show)
 
@@ -188,7 +183,7 @@ class Parser:
         # build list of nouns
         for command in self.command_list:
 
-            noun = ''
+            noun = ""
 
             # check this isn't a verb-only cmd
             if "_" in command:
@@ -200,9 +195,8 @@ class Parser:
             # if unique noun, add to list
             if noun not in self.supported_nouns:
                 self.supported_nouns.append(noun)
-        
+
         self.noun_combos_dict = self.combo_engine(self.supported_nouns)
-        
 
     def parse_cmd(self, cmd_text):
 
@@ -240,11 +234,11 @@ class Parser:
 
         # tokenize & extract verb
         tokens = cmd_text.split()
-        
+
         # lower case to remove case sensitivity
         verb = tokens[0].lower()
-        
-        noun =  ''
+
+        noun = ""
         if len(tokens) > 1:
 
             if verb in self.no_noun:
@@ -257,7 +251,7 @@ class Parser:
                 if noun not in self.supported_nouns:
                     # assume this is an abbreviation to expand
                     noun = self.noun_expander(noun)
-                
+
         args = []
 
         # check verb for possible abbreviation expansion
@@ -267,7 +261,7 @@ class Parser:
         if not verb:
             return [False, []]
 
-        cmd = ''
+        cmd = ""
         arg_start = 1
 
         if verb in self.no_noun:
@@ -277,7 +271,6 @@ class Parser:
             # verb + noun cmd
             arg_start = 2
             cmd = f"{verb}_{noun}"
-
 
         if cmd in self.command_list:
             # we got a match, slice off args and return the command
