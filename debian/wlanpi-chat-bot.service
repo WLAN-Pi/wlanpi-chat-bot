@@ -1,5 +1,6 @@
 [Unit]
 Description=Telegram chatbot the WLAN Pi
+After=network.target
 
 [Service]
 ExecStart=/usr/sbin/chatbot
