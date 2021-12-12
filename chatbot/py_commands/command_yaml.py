@@ -107,8 +107,10 @@ class YamlCommand:
             else:
                 return self._render(chatbot.utils.emojis.bad() + str(exc))
         except Exception as err:
-            return self._render(chatbot.utils.emojis.bad() + f"problem getting output from '{cmd_string}'")
-
+            return self._render(
+                chatbot.utils.emojis.bad()
+                + f"problem getting output from '{cmd_string}'"
+            )
 
         if len(cmd_info) == 0:
             cmd_info.append("No output sorry")

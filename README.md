@@ -15,28 +15,39 @@ Available commands:
 
 iperf
 iperf3
+list files
+list timezones
 ping
 reboot
+service restart
+service start
+service status
+service stop
 set display mode
 set display width
+set hostname
+set regdomain
+set timezone
 show cdp
+show hostname
 show lldp
 show mode
 show publicip
 show reachability
+show regdomain
 show status
 show summary
 show time
+show timezone
 show uptime
 show ver
 speedtest
-
-(Type 'info' for startup status msg)
+(Type "info" for startup status msg)
 ```
 
 To see the list of commands available, type `help` or `?` when sending messages to the WLANP Pi.
 
-![Screenshot](chatbot/images/screenshot.png)
+![Screenshot](docs/images/Telegram_mUQvUKnNt6.png)
 
 ## Debian Packaging
 
@@ -60,7 +71,7 @@ Clone and install the package:
 # Build the deb package
 git clone https://github.com/WLAN-Pi/wlanpi-chat-bot.git
 cd wlanpi-telegram-bot
-sudo dpkg-buildpackage -us -uc
+cd .
 
 # The deb package is here
 cd ..
@@ -69,7 +80,7 @@ cd ..
 sudo apt install ./wlanpi-chat-bot_1.0.0_armhf.deb 
 
 # Configure your Telegram API key
-sudo nano /opt/wlanpi-chat-bot/etc/config.json
+sudo nano /etc/wlanpi-chat-bot/config.json
 
 # Restart twice so that Chat ID is obtained and you receive a new status message from the bot
 sudo systemctl restart wlanpi-chat-bot; sleep 5; sudo systemctl restart wlanpi-chat-bot 
@@ -87,7 +98,7 @@ sudo apt purge wlanpi-chat-bot
 2. Let’s create a new Telegram bot. Find a person called Botfather and send them a message saying /newbot.
 3. Follow the instructions to create a new bot.
 4. After the new bot is created, copy the API key to a text editor.
-5. Edit the file `/opt/wlanpi-chat-bot/etc/config.json` and enter your API key in to the the `"bot_token"` field:
+5. Edit the file `/etc/wlanpi-chat-bot/config.json` and enter your API key in to the the `"bot_token"` field:
 
 ```
 {
@@ -96,7 +107,6 @@ sudo apt purge wlanpi-chat-bot
         "chat_id": "",
         "display_mode": "full",
         "display_width": "30",
-        "yaml_cmds": "/opt/wlanpi-chat-bot/etc/commands"
     }
 }
 ```
@@ -109,4 +119,4 @@ systemctl restart wlanpi-chat-bot
 
 7. In Telegram, send a message to the newly created bot (e.g. show status), this will provide the bot with the chat_id it needs to start communicating. You may have to do this a couple of times to kick it into life. Once the bit is responding, you're good go. You don't need to do this again, it's a one-time operation.
 
-8. Send the bot a "?" to see the commands available to you. Have fun :)
+8. Send the bot "help" or "?" to see the commands available to you. Have fun :)

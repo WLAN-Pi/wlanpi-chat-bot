@@ -1,9 +1,9 @@
 import os
 
 import chatbot.utils.emojis
+from chatbot.__version__ import __version__
 
 from .command import Command
-from chatbot.__version__ import __version__
 
 
 class ShowVersion(Command):
@@ -15,7 +15,7 @@ class ShowVersion(Command):
     def run(self, args_list):
 
         WLANPI_IMAGE_FILE = "/etc/wlanpi-release"
-        
+
         version_string = ""
 
         if os.path.isfile(WLANPI_IMAGE_FILE):
@@ -32,8 +32,8 @@ class ShowVersion(Command):
         else:
             version_string = "WLAN Pi: unknown"
 
-        version_string += "\nBot: " +  __version__
-        
+        version_string += "\nBot: " + __version__
+
         return self._render(version_string)
 
     def help(self):

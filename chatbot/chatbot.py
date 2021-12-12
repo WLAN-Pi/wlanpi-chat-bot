@@ -14,7 +14,9 @@ https://www.codementor.io/@garethdwyer/building-a-telegram-bot-using-python-part
 Thank you Gareth.
 
 """
+import argparse
 import logging
+import logging.config
 import os
 import signal
 import sys
@@ -23,18 +25,68 @@ from os.path import exists
 
 import chatbot.utils.useful
 
+from .__version__ import __version__
 from .transports.telegram_comms import TelegramComms
 from .utils.check_telegram_available import CheckTelegram
 from .utils.config import Config
 from .utils.node_data_snapshot import DataSnapshot
 from .utils.parser import Parser
 from .utils.status import get_status
-from .wlanpi_commands.command import register_commands
+from .py_commands.command import register_commands
 
-logging.basicConfig(level=logging.INFO)
+
+def setup_logger(args) -> None:
+    """Configure and set logging levels"""
+    if args.debug:
+        logging_level = logging.DEBUG
+    else:
+        logging_level = logging.INFO
+
+    default_logging = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "standard": {"format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s"}
+        },
+        "handlers": {
+            "default": {
+                "level": logging_level,
+                "formatter": "standard",
+                "class": "logging.StreamHandler",
+                "stream": "ext://sys.stdout",
+            }
+        },
+        "loggers": {"": {"handlers": ["default"], "level": logging_level}},
+    }
+    logging.config.dictConfig(default_logging)
+
+
+parser = argparse.ArgumentParser(
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    description="wlanpi-chat-bot is a telegram chat bot for the WLAN Pi",
+)
+parser.add_argument(
+    "--bot_token",
+    metavar="bot_token",
+    dest="bot_token",
+    type=str,
+    help="Set the telegram bot token",
+)
+parser.add_argument(
+    "--debug",
+    dest="debug",
+    action="store_true",
+    default=False,
+    help="enable debug logging output",
+)
+parser.add_argument("--version", "-V", action="version", version=f"{__version__}")
+args = parser.parse_args()
+
+setup_logger(args)
+
+# logging.basicConfig(level=logging.INFO)
+
 script_logger = logging.getLogger("TelegramAlert")
-# script_logger.setLevel(logging.DEBUG)
-
 script_logger.debug("********* Starting chat bot *************")
 
 long_polling_timeout = 100
@@ -43,6 +95,8 @@ long_polling_timeout = 100
 conf_obj = Config()
 conf_obj.read_config()
 
+here = os.path.dirname(os.path.realpath(__file__))
+
 # Telegram info
 if not conf_obj.config.get("telegram", None):
     conf_obj.config["telegram"] = {}
@@ -50,7 +104,6 @@ if not conf_obj.config.get("telegram", None):
     conf_obj.config["telegram"]["chat_id"] = ""
     conf_obj.config["telegram"]["display_mode"] = "full"
     conf_obj.config["telegram"]["display_width"] = "30"
-    conf_obj.config["telegram"]["yaml_cmds"] = "/opt/wlanpi-chat-bot/etc/commands"
 
 api_key = conf_obj.config["telegram"]["bot_token"]
 chat_id = False  # we may not know our chat_id initially...
@@ -89,10 +142,18 @@ if not api_key:
 else:
     script_logger.debug("API key value exists.")
 
+if args.bot_token:
+    script_logger.debug("Using bot token passed in by user")
+    conf_obj.config["telegram"]["bot_token"] = args.bot_token
+    api_key = args.bot_token
+
 t = TelegramComms(api_key)
 
 # Create Telegram network connection checker
 tc = CheckTelegram()
+
+# add path to our yaml commands to the conf_obj
+conf_obj.config["telegram"]["yaml_cmds"] = os.path.join(here, "yaml_commands")
 
 # register all commands ready to use later
 GLOBAL_CMD_DICT = register_commands(t, conf_obj)
@@ -112,7 +173,7 @@ def handler(signal_received, frame):
 def main():
 
     signal.signal(signal.SIGINT, handler)
-    
+
     last_update_id = None
     online = False  # start assuming offline
 
@@ -169,7 +230,7 @@ def main():
             # use of rapid upstream polling of Telegram bot to check for new messages)
             #
             # Pass the ID of last rec'd message to ack message and stop it being sent again
-            #try:
+            # try:
             script_logger.debug("Checking for messages (long poll start).")
             updates = t.get_updates(last_update_id)
 
@@ -181,91 +242,105 @@ def main():
                 continue
 
             # if we have a message to process, lets take action
-            if updates and (len(updates["result"]) > 0):
-
-                script_logger.debug("Processing message.")
-                last_update_id = t.get_last_update_id(updates) + 1
-
-                # slice out the last msg (in the case of multipe msgs being sent)
-                update = updates["result"][-1]
-
-                # extract the message text
-                if "message" in update.keys():
-                    text = str(update["message"]["text"]).strip()
-                else:
-                    continue
-
-                # extract the chat ID for our response
-                chat = update["message"]["chat"]["id"]
-
-                # if we don't have a global chat_id already, write it to the config file
-                if not chat_id:
-                    script_logger.debug("Writing chat ID to config file.")
-                    conf_obj.config["telegram"]["chat_id"] = chat
-                    conf_obj.update_config()
-
-                # cleanup whitespace (inc trailing & leading space)
-                text = " ".join(text.split())
-
-                # get list of available commands
-                script_logger.debug("Getting command list.")
-                command_list = list(GLOBAL_CMD_DICT.keys())
-                command_list.sort()
-
-                # if the text starts with 'help', slice off
-                # help keyword and pass remaining to parser
-                help = ""
-                if text.startswith("help") and (" " in text):
-                    [help, text] = text.split(" ", 1)
-
-                # parse command and expand any shortening of verbs (run, show, set, exec)
-                script_logger.debug("Parse command.")
-                [command, args_list] = parser_obj.parse_cmd(text)
-
-                msg = "blank"
-                encode = True
-
-                script_logger.debug("Process command.")
-                if help.startswith("help"):
-                    # provide help method from command class
-                    if command:
-                        msg = GLOBAL_CMD_DICT[command].help()
-                    else:
-                        msg = "Unknown command.  Try '?' "
-
-                elif text == "?":
-                    # provide list of all commands
-                    msg = ["Available commands:\n"]
-                    fixed_command_list = [e.replace("_", " ") for e in command_list]
-                    msg = (
-                        msg
-                        + fixed_command_list
-                        + ['(Type "info" for startup status msg)']
+            if updates:
+                if updates.get("ok") == False:
+                    script_logger.error(
+                        f"Problem in getUpdates: error ({updates.get('error_code')}) with description ({updates.get('description')})"
                     )
-                
-                elif text == 'help':
-                    msg = chatbot.utils.useful.help()
+                    script_logger.error(
+                        "We have reachability, but are having a problem. Is the bot token correct? Sleeping before we try again."
+                    )
+                    time.sleep(30)
+                if updates.get("ok") == True and "result" in updates:
+                    if len(updates["result"]) > 0:
+                        script_logger.debug("Processing message.")
+                        last_update_id = t.get_last_update_id(updates) + 1
 
-                # open those easter eggs kids!
-                elif text in chatbot.utils.useful.cmds.keys():
-                    msg = chatbot.utils.useful.cmds[text]()
+                        # slice out the last msg (in the case of multipe msgs being sent)
+                        update = updates["result"][-1]
 
-                elif text in ["in", "inf", "info"]:
-                    # show boot msg
-                    msg = get_status()
+                        # extract the message text
+                        if "message" in update.keys():
+                            text = str(update["message"]["text"]).strip()
+                        else:
+                            continue
 
-                elif command in command_list:
-                    script_logger.debug(f"Command sent: {command}, (args: {args_list})")
-                    msg = GLOBAL_CMD_DICT[command].run(args_list)
+                        # extract the chat ID for our response
+                        chat = update["message"]["chat"]["id"]
 
-                else:
-                    msg = 'Unknown command (try "help" or "?" command)'
+                        # if we don't have a global chat_id already, write it to the config file
+                        if not chat_id:
+                            script_logger.debug("Writing chat ID to config file.")
+                            conf_obj.config["telegram"]["chat_id"] = chat
+                            conf_obj.update_config()
 
-                script_logger.debug("Send msg to Telegram ({})".format(msg))
-                t.send_msg(msg, chat, encode=encode)
+                        # cleanup whitespace (inc trailing & leading space)
+                        text = " ".join(text.split())
+
+                        # get list of available commands
+                        script_logger.debug("Getting command list.")
+                        command_list = list(GLOBAL_CMD_DICT.keys())
+                        command_list.sort()
+
+                        # if the text starts with 'help', slice off
+                        # help keyword and pass remaining to parser
+                        help = ""
+                        if text.startswith("help") and (" " in text):
+                            [help, text] = text.split(" ", 1)
+
+                        # parse command and expand any shortening of verbs (run, show, set, exec)
+                        script_logger.debug("Parse command.")
+                        [command, args_list] = parser_obj.parse_cmd(text)
+
+                        msg = "blank"
+                        encode = True
+
+                        script_logger.debug("Process command.")
+                        if help.startswith("help"):
+                            # provide help method from command class
+                            if command:
+                                msg = GLOBAL_CMD_DICT[command].help()
+                            else:
+                                msg = "Unknown command.  Try '?' "
+
+                        elif text == "?":
+                            # provide list of all commands
+                            msg = ["Available commands:\n"]
+                            fixed_command_list = [
+                                e.replace("_", " ") for e in command_list
+                            ]
+                            msg = (
+                                msg
+                                + fixed_command_list
+                                + ['(Type "info" for startup status msg)']
+                            )
+
+                        elif text == "help":
+                            msg = chatbot.utils.useful.help()
+
+                        # open those easter eggs kids!
+                        elif text in chatbot.utils.useful.cmds.keys():
+                            msg = chatbot.utils.useful.cmds[text]()
+
+                        elif text in ["in", "inf", "info"]:
+                            # show boot msg
+                            msg = get_status()
+
+                        elif command in command_list:
+                            script_logger.debug(
+                                f"Command sent: {command}, (args: {args_list})"
+                            )
+                            msg = GLOBAL_CMD_DICT[command].run(args_list)
+
+                        else:
+                            msg = 'Unknown command (try "help" or "?" command)'
+
+                        script_logger.debug("Send msg to Telegram ({})".format(msg))
+                        t.send_msg(msg, chat, encode=encode)
+
         else:
             # we likely had a connectivity issue of some type....lets sleep
-            script_logger.info("We appear to be offline, sleeping before next loop.")
+            script_logger.info("We appear to be offline. Sleeping before next loop.")
             script_logger.error(
                 "We have a network connectivity issue. Sleeping before we try again."
             )

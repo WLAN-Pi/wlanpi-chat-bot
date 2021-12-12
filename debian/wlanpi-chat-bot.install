@@ -1,3 +1,1 @@
-/opt/wlanpi-chat-bot/etc/config.json /opt/wlanpi-chat-bot/etc
-/opt/wlanpi-chat-bot/etc/commands /opt/wlanpi-chat-bot/etc
-/opt/wlanpi-chat-bot/etc/scripts /opt/wlanpi-chat-bot/etc
+/install/etc/wlanpi-chat-bot/config.json /etc/wlanpi-chat-bot
