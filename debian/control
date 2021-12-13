@@ -1,6 +1,6 @@
 Source: wlanpi-chat-bot
 Section: contrib/python
-Priority: extra
+Priority: optional
 Maintainer: Nigel Bowden <wifinigel@gmail.com>
 Build-Depends: debhelper (>= 11),
                dh-python,
