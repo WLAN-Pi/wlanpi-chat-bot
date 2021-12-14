@@ -70,13 +70,13 @@ Clone and install the package:
 ```bash
 # Build the deb package
 git clone https://github.com/WLAN-Pi/wlanpi-chat-bot.git
-cd wlanpi-telegram-bot
-cd .
+cd wlanpi-chat-bot
+dpkg-buildpackage -us -uc -b
 
 # The deb package is here
 cd ..
 
-# Install the package
+# Install the package (modify filename below to newly built package)
 sudo apt install ./wlanpi-chat-bot_1.0.0_armhf.deb 
 
 # Configure your Telegram API key
