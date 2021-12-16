@@ -7,7 +7,7 @@ The following steps are the initial instructions to clone the codebase locally a
 1. Clone repo:
 
 ```
-git clone git@github.com:WLAN-Pi/wlanpi-chat-bot.git && cd wlanpi-chat-bot
+git clone https://WLAN-Pi/wlanpi-chat-bot.git && cd wlanpi-chat-bot
 ```
 
 2. Create virtualenv:
@@ -38,10 +38,13 @@ pip install -r requirements.txt
 
 Ok, now should be read to run the code. This version of the chat-bot is packaged into a module. So, we need to instruction Python to run it as a module with the `-m` option.
 
-1. Activate the virtualenv
+1. If developing on a WLAN Pi that is already running wlanpi-chat-bot, stop the servie before running up our development instance
 
 ```
-source venv/bin/activate
+sudo systemctl stop wlanpi-chat-bot
+# check it stopped
+sudo systemctl status wlanpi-chat-bot
+
 ```
 
 2. We need to run chat-bot as sudo, which means we'll need to pass along the location of the Python environment to sudo like this:
@@ -50,14 +53,30 @@ source venv/bin/activate
 sudo venv/bin/python3 -m chatbot
 ```
 
+If you'd like to run chat-bot in debug mode for testing, run with the "--debug" option:
+
+```
+sudo venv/bin/python3 -m chatbot --debug
+```
+
+If you'd like to pass your chat-bot app token for testing, pass it in via the "--bot_token" option:
+
+```
+sudo venv/bin/python3 -m chatbot --bot_token
+```
+
 Further reading on executing modules with Python at <https://docs.python.org/3/library/runpy.html>.
 
-## Cheatsheat
+## Cheatsheet
 
 Is your development environment already setup?
 
 ```
 cd <root of repo>
 source venv/bin/activate
+pip install -U pip setuptools wheel
+pip install -r requirements.txt
+sudo systemctl stop wlanpi-chat-bot
+sudo systemctl status wlanpi-chat-bot
 sudo venv/bin/python3 -m chatbot
 ```
