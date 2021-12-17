@@ -158,8 +158,8 @@ conf_obj.config["telegram"]["yaml_cmds"] = os.path.join(here, "yaml_commands")
 # register all commands ready to use later
 GLOBAL_CMD_DICT = register_commands(t, conf_obj)
 
-# prime noun list with all acceptable abbreviations
-parser_obj = Parser(GLOBAL_CMD_DICT)
+# create parser obj
+parser_obj = Parser(GLOBAL_CMD_DICT, script_logger)
 
 if "chat_id" in conf_obj.config["telegram"].keys():
     chat_id = conf_obj.config["telegram"]["chat_id"]
@@ -172,6 +172,7 @@ def handler(signal_received, frame):
 
 def main():
 
+    # only true first time around
     booted = True
 
     signal.signal(signal.SIGINT, handler)
@@ -234,12 +235,12 @@ def main():
             # Pass the ID of last rec'd message to ack message and stop it being sent again
             # try:
             
-            flush = False
+            flush_telegram_msgs = False
             if booted:
                 t.long_polling_timeout = 1
                 booted = False
                 # flush out cached cmds
-                flush = True
+                flush_telegram_msgs = True
             else:
                 t.long_polling_timeout = LONG_POLLING_TIMEOUT
             
@@ -247,7 +248,7 @@ def main():
             updates = t.get_updates(last_update_id)
 
             # ignore any cached cmds if received and flush is signalled
-            if flush and len(updates["result"]) > 0:
+            if flush_telegram_msgs and len(updates["result"]) > 0:
                 last_update_id = t.get_last_update_id(updates) + 1
                 continue
 
