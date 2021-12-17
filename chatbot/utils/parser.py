@@ -7,7 +7,7 @@ class Parser:
     Class for command parsing
     """
 
-    def __init__(self, global_cmd_dict):
+    def __init__(self, global_cmd_dict, script_logger):
 
         self.supported_verbs = []
         self.supported_nouns = []
@@ -17,6 +17,8 @@ class Parser:
 
         self.command_list = list(global_cmd_dict.keys())
         self.command_list.sort()
+
+        self.script_logger = script_logger
 
         # populate verb & noun lists for parsing
         self.verb_combos(global_cmd_dict)
@@ -47,8 +49,9 @@ class Parser:
             string or False: expanded verb or False if not found
         """
 
-        for verb, abbr_list in self.verb_combos_dict.items():
-            if cmd_verb in abbr_list:
+        for abbr, verb in self.verb_combos_dict.items():
+            self.script_logger.debug(f"[Parser] Verb = {verb}, abbr = {abbr}")
+            if cmd_verb == abbr:
                 return verb
 
         # no match, return False
@@ -65,8 +68,9 @@ class Parser:
             string or False: expanded noun or False if not found
         """
 
-        for noun, abbr_list in self.noun_combos_dict.items():
-            if cmd_noun in abbr_list:
+        for abbr, noun in self.noun_combos_dict.items():
+            self.script_logger.debug(f"[Parser] Noun = {noun}, abbr = {abbr}")
+            if cmd_noun == abbr:
                 return noun
 
         # no match, return False
@@ -162,6 +166,7 @@ class Parser:
 
         self.verb_combos_dict = self.combo_engine(self.supported_verbs)
 
+
     def noun_combos(self, command_dict):
         """
         Figure out all possible noun combinations so that a
@@ -198,6 +203,7 @@ class Parser:
 
         self.noun_combos_dict = self.combo_engine(self.supported_nouns)
 
+
     def parse_cmd(self, cmd_text):
 
         """
@@ -231,12 +237,14 @@ class Parser:
         9. If no command match achieved, return False
 
         """
+        self.script_logger.debug(f"[Parser] Parsing command: {cmd_text}")
 
         # tokenize & extract verb
         tokens = cmd_text.split()
 
         # lower case to remove case sensitivity
         verb = tokens[0].lower()
+        self.script_logger.debug(f"[Parser] Verb: {verb}")
 
         noun = ""
         if len(tokens) > 1:
@@ -251,6 +259,7 @@ class Parser:
                 if noun not in self.supported_nouns:
                     # assume this is an abbreviation to expand
                     noun = self.noun_expander(noun)
+        self.script_logger.debug(f"[Parser] Noun: {noun}")
 
         args = []
 
