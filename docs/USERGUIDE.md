@@ -65,9 +65,9 @@ wlanpi@wlanpi:~$ sudo systemctl restart wlanpi-chat-bot
 
 Create a file called "wlanpi_bot.key" in the "boot" partition. Create the file with a plain text editor and add a single like which is just the API key that was provided during the bot creation. Here are a couple of screen-shots that show the file created on a Windows machine and a Mac:
 
-![Screenshot](docs/images/boot_partition_windows.png)
+![Screenshot](images/boot_partition_windows.png)
 
-![Screenshot](docs/images/boot_partition_mac.png)
+![Screenshot](images/boot_partition_mac.png)
 
 Once the WLAN Pi boots up and reads the file, the API key is added to the bot config file and removed from the boot partition for security purposes.
 
@@ -75,7 +75,7 @@ Once the WLAN Pi boots up and reads the file, the API key is added to the bot co
 
 To interact with the WLAN Pi chat-bot, commands are entered in to the Telegram app. To see which commands are available, simply enter a "?" and hit enter. This will show the commands avaiable:
 
-![Screenshot](docs/images/show-commands.png)
+![Screenshot](images/show-commands.png)
 
 
 
