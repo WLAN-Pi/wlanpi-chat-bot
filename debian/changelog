@@ -1,3 +1,9 @@
+wlanpi-chat-bot (1.0.8) UNRELEASED; urgency=medium
+
+  * Add user guide document
+
+ -- Nigel Bowden <wifinigel@gmail.com>  Sun, 19 Dec 2021 20:51:46 +0000
+
 wlanpi-chat-bot (1.0.7) unstable; urgency=medium
 
   * Fix parse logic errors & flush bufered messages after reboot

@@ -33,7 +33,7 @@ class Parser:
         clean_args = []
 
         for arg in args:
-            clean_arg = re.sub("[;`<>|]", "", arg)
+            clean_arg = re.sub("[;`<>|]%&", "", arg)
             clean_args.append(clean_arg)
 
         return clean_args

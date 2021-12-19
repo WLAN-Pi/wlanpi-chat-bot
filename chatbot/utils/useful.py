@@ -51,6 +51,7 @@ e.g.
    help show uptime
    help sh up
 
-Visit http://wlanpi.com for
-more details.
+View the full chat-bot user 
+guide here:
+https://github.com/WLAN-Pi/wlanpi-chat-bot/blob/main/docs/USERGUIDE.md
 """
