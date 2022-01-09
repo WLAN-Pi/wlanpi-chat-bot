@@ -18,6 +18,7 @@ import argparse
 import logging
 import logging.config
 import os
+from pprint import pprint
 import signal
 import sys
 import time
@@ -106,7 +107,6 @@ if not conf_obj.config.get("telegram", None):
     conf_obj.config["telegram"]["display_width"] = "30"
 
 api_key = conf_obj.config["telegram"]["bot_token"]
-chat_id = False  # we may not know our chat_id initially...
 
 # lets see if we can find an api key if its missing
 script_logger.debug("Checking for API key...")
@@ -161,8 +161,7 @@ GLOBAL_CMD_DICT = register_commands(t, conf_obj)
 # create parser obj
 parser_obj = Parser(GLOBAL_CMD_DICT, script_logger)
 
-if "chat_id" in conf_obj.config["telegram"].keys():
-    chat_id = conf_obj.config["telegram"]["chat_id"]
+
 
 # handle Ctrl-C input
 def handler(signal_received, frame):
@@ -179,6 +178,15 @@ def main():
 
     last_update_id = None
     online = False  # start assuming offline
+
+    chat_id = False
+    username = False
+    
+    if "chat_id" in conf_obj.config["telegram"].keys():
+        chat_id = conf_obj.config["telegram"]["chat_id"]
+
+    if "username" in conf_obj.config["telegram"].keys():
+        username = conf_obj.config["telegram"]["username"]
 
     # event loop
     script_logger.debug("Starting main event loop.")
@@ -270,12 +278,16 @@ def main():
                     )
                     time.sleep(30)
                 if updates.get("ok") == True and "result" in updates:
+
                     if len(updates["result"]) > 0:
                         script_logger.debug("Processing message.")
                         last_update_id = t.get_last_update_id(updates) + 1
 
                         # slice out the last msg (in the case of multipe msgs being sent)
                         update = updates["result"][-1]
+
+                        script_logger.debug("Dump of received update:")
+                        script_logger.debug(pprint(update))
 
                         # extract the message text
                         if "message" in update.keys():
@@ -284,13 +296,39 @@ def main():
                             continue
 
                         # extract the chat ID for our response
-                        chat = update["message"]["chat"]["id"]
+                        chat_id_check = update["message"]["chat"]["id"]
 
-                        # if we don't have a global chat_id already, write it to the config file
+                        # extract username if present
+                        if "username" in update["message"]["chat"].keys():
+                            username_check = update["message"]["chat"]["username"]
+
+                        # if we don't have a global chat_id already (i.e. new chat-bot instance), write it to the config file
                         if not chat_id:
+                            script_logger.debug("We don't have a chat ID yet, using details in this message to configure chat ID & username for bot.")
                             script_logger.debug("Writing chat ID to config file.")
-                            conf_obj.config["telegram"]["chat_id"] = chat
+                            conf_obj.config["telegram"]["chat_id"] = chat_id_check
+                            chat_id = chat_id_check
                             conf_obj.update_config()
+                        
+                            # if we don't have a global username already and we found a username, write it to the config file
+                            if not username:
+                                script_logger.debug("Writing username to config file.")
+                                conf_obj.config["telegram"]["username"] = username_check
+                                username = username_check
+                                conf_obj.update_config()
+                            
+                            # we don't want to process any commands yet, go 
+                            # back to top of event loop 
+                            continue
+                        else:
+                            # perform security checks that the command is sent by the authorised user
+                            script_logger.debug("Checking received update is from authorized user.")
+
+                            if (chat_id == chat_id_check) and (username == username_check):
+                                script_logger.debug("Chat ID and username check OK.")
+                            else:
+                                script_logger.debug("Chat ID or username is incorrect, failed check (update not processed).")
+                                continue
 
                         # cleanup whitespace (inc trailing & leading space)
                         text = " ".join(text.split())
@@ -354,7 +392,7 @@ def main():
                             msg = 'Unknown command (try "help" or "?" command)'
 
                         script_logger.debug("Send msg to Telegram ({})".format(msg))
-                        t.send_msg(msg, chat, encode=encode)
+                        t.send_msg(msg, chat_id, encode=encode)
 
         else:
             # we likely had a connectivity issue of some type....lets sleep
