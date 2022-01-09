@@ -304,6 +304,7 @@ def main():
 
                         # if we don't have a global chat_id already (i.e. new chat-bot instance), write it to the config file
                         if not chat_id:
+                            script_logger.debug("We don't have a chat ID yet, using details in this message to configure chat ID & username for bot.")
                             script_logger.debug("Writing chat ID to config file.")
                             conf_obj.config["telegram"]["chat_id"] = chat_id_check
                             chat_id = chat_id_check
@@ -313,6 +314,7 @@ def main():
                             if not username:
                                 script_logger.debug("Writing username to config file.")
                                 conf_obj.config["telegram"]["username"] = username_check
+                                username = username_check
                                 conf_obj.update_config()
                             
                             # we don't want to process any commands yet, go 
