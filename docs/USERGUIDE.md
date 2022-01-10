@@ -31,7 +31,7 @@ Once you have your Telegram account, you'll need to create a Telegram bot to tal
 Here are the basic instructions of how to configure the bot:
 
 1. Start the Telegram app
-2. Create a new Telegram bot: find a person called Botfather and send them a message saying `/newbot`
+2. Create a new Telegram bot: find a person called Botfather and send them a message saying `/newbot` (__Note: see [Security Considerations](#security-considerations) below!__)
 3. Follow the on-screen instructions to create a new bot and make a note of the API key that is provided
 4. After the new bot is created, copy the API key to a text editor for later use
 
@@ -50,6 +50,7 @@ wlanpi@wlanpi:~$ sudo nano /etc/wlanpi-chat-bot/config.json`
     "telegram": {
         "bot_token": "1233735614:AAHe9eHOP_uCe6773bWjQTNvHT_llYHmFSw",
         "chat_id": "",
+        "username": "",
         "display_mode": "full",
         "display_width": "30",
     }
@@ -70,6 +71,10 @@ Create a file called `wlanpi_bot.key` in the `boot` partition. Create the file w
 ![Screenshot](images/boot_partition_mac.png)
 
 Once the WLAN Pi boots up and reads the file from the boot partition, the API key is added to the WLAN Pi bot config file and removed from the boot partition for security purposes.
+
+3. Once the API key is in-place via one of the two methods outlined above, its time to wake up the bot and make sure you can send it messages.
+
+With the WLAN Pi connected to the Internet, open up your Telegram client and send a message to the bot. You can try : `hi`. You will likely get no response to your first message. Don't worry...send a second message: `hi`. You should now receive a response. Your bot is now keyed to you user ID and will respond only to you. You will not need to repeat this wake-up process - each time you switch on the WLAN Pi and it is connected to the Interet, it will establish comms with your Telegram client.
 
 ## Using Chat-Bot
 
@@ -115,5 +120,10 @@ To get an extended description of how to use chat-bot the command `help` may be 
 If help is required for a particular command, it may be prefixed with the word `help` to gain addition insights such as command syntax. For example, to get help about the `show publicip` command, `help sh pub` may be used:
 
 ![Screenshot](images/chatbot-help-sh-pub.png)
+
+# Security Considerations
+Although comms to and from the WLAN Pi chat-bot is limited to just your Telegram user account, it is worth noting that all bot names are publicly searchable on Teleram. This means that people are able to search for your bot from their Telegram client. If they find the bot, they are not able to execute commands, but who knows what types of clever exploits may surface in the future?
+
+For this reason, it is definitely worth naming your Telegram bot with a non-obvious name (e.g. do not include the phrase "wlanpi" in your bot name).
 
 
