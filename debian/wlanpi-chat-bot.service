@@ -4,6 +4,12 @@ After=network.target
 
 [Service]
 ExecStart=/usr/sbin/chatbot
+NoNewPrivileges=yes
+ProtectSystem=true
+ProtectHome=read-only
+ProtectControlGroups=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
 
 [Install]
 WantedBy=multi-user.target
