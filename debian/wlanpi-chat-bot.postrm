@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# "wlanpi-chat-bot" postrm script
+#
+set -e
+
+#DEBHELPER#
+
+# remove service account
+deluser wlanpi-chat-bot
+rm -rf /home/wlanpi-chat-bot
+
+# remove sudoer entries for wlanpi-chat-bot
+rm /etc/sudoers.d/wlanpi-chat-bot
+exit 0
