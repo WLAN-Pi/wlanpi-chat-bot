@@ -1,6 +1,6 @@
 ---
  command: show_regdomain
- exec: "/opt/wlanpi-common/wlanpi-reg-domain.sh get"
+ exec: "sudo /opt/wlanpi-common/wlanpi-reg-domain.sh get"
  progress_msg: Getting regulatory domain...
  emoji: page
  help_short: "show regdomain: Show current WLAN Pi regulatory domain"

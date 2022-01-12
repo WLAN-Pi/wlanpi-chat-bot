@@ -1,6 +1,6 @@
 ---
  command: show_hostname
- exec: "/opt/wlanpi-common/wlanpi-hostname.sh get"
+ exec: "sudo /opt/wlanpi-common/wlanpi-hostname.sh get"
  progress_msg: Getting hostname...
  emoji: page
  help_short: "show hostname: Shows current WLAN Pi hostname"
