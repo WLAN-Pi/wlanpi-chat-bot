@@ -1,6 +1,6 @@
 ---
  command: show_regdomain
- exec: "sudo /opt/wlanpi-common/wlanpi-reg-domain.sh get"
+ exec: "cat /etc/default/crda | grep REGDOMAIN | awk -F'=' '{print $2}'"
  progress_msg: Getting regulatory domain...
  emoji: page
  help_short: "show regdomain: Show current WLAN Pi regulatory domain"
