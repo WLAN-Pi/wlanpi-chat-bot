@@ -1,6 +1,6 @@
 ---
  command: set_hostname
- exec: "/opt/wlanpi-common/wlanpi-hostname.sh set "
+ exec: "sudo /opt/wlanpi-common/wlanpi-hostname.sh set "
  progress_msg: Setting hostname...
  emoji: page
  help_short: "set hostname: Set WLAN Pi hostname (set hostname my_hostname)"

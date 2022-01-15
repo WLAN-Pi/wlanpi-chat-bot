@@ -12,4 +12,6 @@ set -e
 #   dh_venv_package         Name of the Debian package
 #   dh_venv_install_dir     Root directory for the installed virtualenv
 
+# add entries to sudoer for wlanpi-chat-bot
+echo "wlanpi-chatbot ALL = (root) NOPASSWD:/opt/wlanpi-common/wlanpi-reg-domain.sh, /opt/wlanpi-common/wlanpi-hostname.sh" > /etc/sudoers.d/wlanpi-chat-bot
 exit 0

@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# "wlanpi-chat-bot" preinst script
+#
+set -e
+
+#DEBHELPER#
+
+# add service account
+adduser --system wlanpi-chat-bot --no-create-home --disabled-password
+
+exit 0

@@ -10,6 +10,7 @@ ProtectHome=read-only
 ProtectControlGroups=yes
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
+User=wlanpi-chat-bot
 
 [Install]
 WantedBy=multi-user.target

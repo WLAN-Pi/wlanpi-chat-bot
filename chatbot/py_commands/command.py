@@ -121,12 +121,12 @@ class Command:
 
 
 # import our commands
-from .iperf import Iperf
-from .iperf3 import Iperf3
-from .ping import Ping
-from .reboot import Reboot
-from .set_display_mode import SetDisplayMode
-from .set_display_width import SetDisplayWidth
+#from .iperf import Iperf
+#from .iperf3 import Iperf3
+#from .ping import Ping
+#from .reboot import Reboot
+#from .set_display_mode import SetDisplayMode
+#from .set_display_width import SetDisplayWidth
 from .show_mode import ShowMode
 from .show_status import ShowStatus
 from .show_summary import ShowSummary
