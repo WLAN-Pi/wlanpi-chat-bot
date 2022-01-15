@@ -127,12 +127,15 @@ class Command:
 #from .reboot import Reboot
 #from .set_display_mode import SetDisplayMode
 #from .set_display_width import SetDisplayWidth
+from .show_eth0_ip import ShowEth0Ip
+from .show_interfaces import ShowInterfaces
 from .show_mode import ShowMode
 from .show_status import ShowStatus
 from .show_summary import ShowSummary
 from .show_time import ShowTime
 from .show_uptime import ShowUptime
 from .show_version import ShowVersion
+from .show_wlaninterfaces import ShowWlanInterfaces
 from .speedtest import Speedtest
 
 

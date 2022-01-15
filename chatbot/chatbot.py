@@ -286,8 +286,7 @@ def main():
                         # slice out the last msg (in the case of multipe msgs being sent)
                         update = updates["result"][-1]
 
-                        script_logger.debug("Dump of received update:")
-                        script_logger.debug(pprint(update))
+                        script_logger.debug(f"Dump of received update: {update}")
 
                         # extract the message text
                         if "message" in update.keys():
