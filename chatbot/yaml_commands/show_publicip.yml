@@ -1,9 +1,9 @@
 ---
  command: show_publicip
  exec: /opt/wlanpi-common/networkinfo/publicip.sh
- progress_msg: Getting public IP...
+ progress_msg: Getting public IPv4 address...
  emoji: 
- help_short: "show publicip: Show probe public IP of probe"
+ help_short: "show publicip: Show public IPv4 address of this probe"
  help_long: "show publicip:\n\n
-             Show probe public IP address\n
+             Show probe public IPv4 address of this probe\n
              syntax: show publicip"
