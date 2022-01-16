@@ -24,13 +24,10 @@ commands please enter: ?
 Commands have a general format
 of:
 
-  {verb} [noun] [arg1 .. argN]
+  {verb} [noun]
 
 Some commands require no noun
-(e.g. ping).
-
-Arguments vary with the 
-requirements of each command. 
+(e.g. speedtest).
 
 Commands may be entered in 
 full text format e.g.
