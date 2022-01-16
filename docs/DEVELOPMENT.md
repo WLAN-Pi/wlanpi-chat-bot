@@ -7,7 +7,7 @@ The following steps are the initial instructions to clone the codebase locally a
 1. Clone repo:
 
 ```
-git clone https://WLAN-Pi/wlanpi-chat-bot.git && cd wlanpi-chat-bot
+git clone https://github.com/WLAN-Pi/wlanpi-chat-bot.git && cd wlanpi-chat-bot
 ```
 
 2. Create virtualenv:

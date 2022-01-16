@@ -1,0 +1,9 @@
+---
+ command: show_publicip6
+ exec: /opt/wlanpi-common/networkinfo/publicip6.sh
+ progress_msg: Getting public IPv6 address...
+ emoji: 
+ help_short: "show publicip6: Show probe public IPv6 address of probe"
+ help_long: "show publicip6:\n\n
+             Show probe public IPv6 address of ths probe\n
+             syntax: show publicip6"

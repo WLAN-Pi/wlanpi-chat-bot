@@ -1,3 +1,11 @@
+wlanpi-chat-bot (1.0.13) unstable; urgency=medium
+
+  * Add eth0 vlan cmd
+  * Add public IPv6 command
+  * Fix userguide doc to remove args references & add security info
+
+ -- Nigel Bowden <wifinigel@gmail.com>  Sun, 16 Jan 2022 13:58:20 +0000
+
 wlanpi-chat-bot (1.0.12) unstable; urgency=medium
 
   * Add 3 new interface cmds from FPMS (interfaces, wlan interfaces, eth0)
