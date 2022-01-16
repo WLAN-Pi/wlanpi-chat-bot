@@ -1,7 +1,9 @@
 # User Guide for WLAN Pi Chat-Bot
 
 ## Overview
-The WLAN Pi chat-bot is a Telegram bot that allows a number of remote operations to be performed on a WLAN Pi that has Internet connectivity. These include operations such as checking the status of the WLAN Pi and running tests such as speedtest and ping.
+The WLAN Pi chat-bot is a Telegram bot that allows a number of remote operations to be performed on a WLAN Pi that has Internet connectivity. These include operations such as checking the status of the WLAN Pi and running tests such as speedtest.
+
+(__Note: see [Security Considerations](#security-considerations) below before using chat-bot__)
 
 There are three steps to configure the chat-bot:
 
@@ -74,7 +76,7 @@ Once the WLAN Pi boots up and reads the file from the boot partition, the API ke
 
 3. Once the API key is in-place via one of the two methods outlined above, its time to wake up the bot and make sure you can send it messages.
 
-With the WLAN Pi connected to the Internet, open up your Telegram client and send a message to the bot. You can try : `hi`. You will likely get no response to your first message. Don't worry...send a second message: `hi`. You should now receive a response. Your bot is now keyed to you user ID and will respond only to you. You will not need to repeat this wake-up process - each time you switch on the WLAN Pi and it is connected to the Interet, it will establish comms with your Telegram client.
+With the WLAN Pi connected to the Internet, open up your Telegram client and send a message to the bot. You can try : `hi`. You will likely get no response to your first message. Don't worry...send a second message: `hi`. You should now receive a response. Your bot is now keyed to you user ID  and username and will respond only to you. You will not need to repeat this wake-up process - each time you switch on the WLAN Pi and it is connected to the Interet, it will establish comms with your Telegram client.
 
 ## Using Chat-Bot
 
@@ -88,22 +90,19 @@ Most commands are made up of a two parts:
 
     <verb> <noun>
 
-For instance, to see CDP neighbours of a WLAN Pi, the command `show cdp` is used. In this instance, `show` is the verb and it is follwed by the noun `cdp`. Optionally, a command may also be followed by one or more arguments if they are appropriate to the command. For instance, to set the WLAN Pi hostname to `Keith`, the following command would be used:
+For instance, to see CDP neighbours of a WLAN Pi, the command `show cdp` is used. In this instance, `show` is the verb and it is followed by the noun `cdp`.
 
 ```
-set hostname Keith
+show cdp
 ```
-`Keith` is an argument to the command `set hostname`.
 
-Note that a small number of commands are single-word (verb-only) commands. For instance, `speedtest` and `ping` are verb-only. Here is screen-shot showing the ping command:
+Note that a small number of commands are single-word (verb-only) commands. For instance, `speedtest` are verb-only. Here is screen-shot showing the `speedtest` command:
 
-![Screenshot](images/chatbot-ping-google.png)
+![Screenshot](images/chatbot-speedtest.png)
 
 ### Command Abbreviations
 
-Typing the full command each time to perform an operation can be laborious. Therefore, it is possible to enter the minimum unique representation of each command. For instance, instead of entering the full command `speedtest`, this could be abbreviated to "speed", "spee", "spe" or "sp". "A single `s` would not be valid as this would clash with the `show` commands:
-
-![Screenshot](images/chatbot-speedtest.png)
+Typing the full command each time to perform an operation can be laborious. Therefore, it is possible to enter the minimum unique representation of each command. For instance, instead of entering the full command `speedtest`, this could be abbreviated to "speed", "spee", "spe" or "sp". "A single `s` would not be valid as this would clash with the `show` commands.
 
 Note that both the verb and noun can be abbreviated, so that `show summary` command can be entered as `sh sum`:
 
@@ -125,5 +124,13 @@ If help is required for a particular command, it may be prefixed with the word `
 Although comms to and from the WLAN Pi chat-bot is limited to just your Telegram user account, it is worth noting that all bot names are publicly searchable on Teleram. This means that people are able to search for your bot from their Telegram client. If they find the bot, they are not able to execute commands, but who knows what types of clever exploits may surface in the future?
 
 For this reason, it is definitely worth naming your Telegram bot with a non-obvious name (e.g. do not include the phrase "wlanpi" in your bot name).
+
+As the public nature of telegram bots is a concern, a number of techniques have been employed or are suggested to provide several layers of protection. Again, Telegram bots are, by the nature of their current implemetation on the Telegram platform, publicy available. To restrict access, the following techniques are suggested, or have been implemented by the WLAN Pi team:
+
+1. The chat-bot module is available as an optional module that you may install on to the WLAN Pi. Ensure you understand the risks before installing the chat-bot
+2. When creating your bot on Telegram, use a name that is not obviously a WLAN Pi. Use something that is meaningful to you and is not easily guessible for someone trying to find your bot on the public search tool provided by Telegram. (NOTE: the bot  name is not the hostname of your WLAN Pi, it is the bot name assigned when creating the bot account on Telegram)
+3. When the WLAN Pi bot is initialised with the required app key, it will use only the user-id and user account name that initially sends it a message (i.e. you) for subsequent comms. If messages are received from other user accounts and/or other user-id's, messages are dropped without processing. This ensures that only messages sent by you are processed by the WLAN Pi bot.
+4. To limit any user-supplied input from trying to execute unintended commands on the WLAN Pi itself (e.g. by supplying additional characters to command arguments to trigger other OS-level commands), no commands are provided that required arguments to be supplied. Only commands that match a list of known commands are accepted, with no additional arguments accepted or processed.   
+
 
 
