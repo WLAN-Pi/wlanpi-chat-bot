@@ -2,7 +2,7 @@
 
 # wlanpi-chat-bot
 
-The WLAN Pi chat-bot is a Telegram bot that allows a number of remote operations to be performed on a WLAN Pi that has Internet connectivity. These include operations such as checking the status of the WLAN Pi and running tests such as speedtest and ping.
+The WLAN Pi chat-bot is a Telegram bot that allows a number of remote operations to be performed on a WLAN Pi that has Internet connectivity. These include operations such as checking the status of the WLAN Pi and running tests such as speedtest.
 
 To use chat-bot, there are a few initial steps to complete associate the bot with your telegram account so that you may remotely access your WLAN Pi.
 
