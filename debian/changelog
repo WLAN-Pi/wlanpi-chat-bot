@@ -1,3 +1,9 @@
+wlanpi-chat-bot (1.0.13-1) unstable; urgency=medium
+
+  * make service account conditional on install/upgrade
+
+ -- Nigel Bowden <wifinigel@gmail.com>  Tue, 18 Jan 2022 21:58:25 +0000
+
 wlanpi-chat-bot (1.0.13) unstable; urgency=medium
 
   * Add eth0 vlan cmd
