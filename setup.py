@@ -42,6 +42,8 @@ setup(
         "psutil==5.9.0",
         "netifaces==0.11.0",
         "PyYAML==6.0",
+        "Pillow==9.0.0",
+        "qrcode==7.3.1",
     ],
     extras_require=extras,
     project_urls={
