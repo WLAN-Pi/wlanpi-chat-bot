@@ -16,7 +16,7 @@ CONFIG_FILE=/etc/wlanpi-chat-bot/config.json
 APP_KEY=""
 
 get_app_key () {
-    read -p "Please enter the app key of your bot : " APP_KEY
+    read -p "Enter key of your bot : " APP_KEY
     return
 }
 
@@ -60,7 +60,7 @@ INTRO
 
              WLANPi Chat-Bot Key Setup
 
-Please enter your bot app key:
+Please enter your bot app key below.
 
 ##################################################### 
 KEY
