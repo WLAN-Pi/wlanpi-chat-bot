@@ -391,7 +391,11 @@ def main():
                             msg = 'Unknown command (try "help" or "?" command)'
 
                         script_logger.debug("Send msg to Telegram ({})".format(msg))
-                        t.send_msg(msg, chat_id, encode=encode)
+                        if isinstance(msg, dict):
+                            # this should be an image
+                            t.send_image(msg['filename'], chat_id, msg['caption'])
+                        else:
+                            t.send_msg(msg, chat_id, encode=encode)
 
         else:
             # we likely had a connectivity issue of some type....lets sleep
