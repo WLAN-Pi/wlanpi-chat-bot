@@ -1,1 +1,2 @@
 /install/etc/wlanpi-chat-bot/config.json /etc/wlanpi-chat-bot
+/extras/* /opt/wlanpi-chat-bot/extras
