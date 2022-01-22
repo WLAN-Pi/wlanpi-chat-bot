@@ -39,9 +39,17 @@ Here are the basic instructions of how to configure the bot:
 
 ### Chat-bot
 
-To configure the WLAN Pi to talk with the Telegram chat-bot, we need to configure the WLAN Pi with the API key provided when the bot was set up. There are two methods available:
+To configure the WLAN Pi to talk with the Telegram chat-bot, we need to configure the WLAN Pi with the API key provided when the bot was set up. There are three methods available:
 
-1. SSH to the WLAN pi and edit the file `/etc/wlanpi-chat-bot/config.json`. Enter your API key in to the the `"bot_token"` field:
+1. Run the "quickstart" script to initiate a CLI_based wizard to configure the app key quickly & easily. you will need to be able to SSH to the WAN Pi to execute this script. Once you have SSH access, execute the following CLI command:
+
+```
+sudo quickstart-chat-bot
+```
+
+Follow the on-screen instructions t configire your app key and restart chat-bot.
+
+2. SSH to the WLAN pi and edit the file `/etc/wlanpi-chat-bot/config.json`. Enter your API key in to the the `"bot_token"` field:
 
 ```
 wlanpi@wlanpi:~$ sudo nano /etc/wlanpi-chat-bot/config.json`
@@ -64,7 +72,7 @@ To ensure the API key is read correctly, restart the chat-bot process on the WLA
 wlanpi@wlanpi:~$ sudo systemctl restart wlanpi-chat-bot
 ```
 
-2. For a completely headless configuration, it's possible to add a file to the micro-SD card that runs the WLAN Pi image. Pop the SD card out of the WLAN Pi and using a SD card-to-USB adapter, access the SD card via a USB port on your laptop or MAC. There is a readable partition called "boot" on the SD card where the chat-bot API key may be placed. 
+3. For a completely headless configuration, it's possible to add a file to the micro-SD card that runs the WLAN Pi image. Pop the SD card out of the WLAN Pi and using a SD card-to-USB adapter, access the SD card via a USB port on your laptop or MAC. There is a readable partition called "boot" on the SD card where the chat-bot API key may be placed. 
 
 Create a file called `wlanpi_bot.key` in the `boot` partition. Create the file with a plain text editor and add a single line that contains just the API key that was provided during bot creation. Here are a couple of screen-shots that show the file created on a Windows machine and a Mac:
 

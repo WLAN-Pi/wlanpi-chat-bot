@@ -1,1 +1,2 @@
 opt/wlanpi-chat-bot/bin/chatbot usr/sbin/chatbot
+opt/wlanpi-chat-bot/extras/quickstart.sh usr/sbin/quickstart-chat-bot
