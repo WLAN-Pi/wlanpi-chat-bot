@@ -91,6 +91,44 @@ class TelegramComms(object):
                 return False
 
         return True
+    
+    def send_image(self, filename, chat_id, caption=False):
+
+        """
+        Method to send an image to Telegram Bot
+
+        Arguments:
+            filename {mandatory str} -- [string containing local file name of image]
+
+        Returns:
+            On failure : False (error message in self.err_msg)
+            Sucess: True
+
+        """
+        # make sure chat_id available from this object
+        if not self.chat_id:
+            self.chat_id = chat_id
+
+        # send as a multipart form
+        files = {'photo': (filename, open(filename, 'rb'),'image/png')}
+
+        url = f"https://api.telegram.org/bot{self.api_key}/sendPhoto?chat_id={chat_id}"
+
+        if caption:
+            url += f"&caption={caption}"
+
+        try:
+            requests.post(url, files=files)
+        except HTTPError as http_err:
+            self.err_msg = f"HTTP error occurred: {http_err}"
+            class_logger.error(self.err_msg)
+            return False
+        except Exception as err:
+            self.err_msg = f"Other error occurred: {err}"
+            class_logger.error(self.err_msg)
+            return False
+
+        return True
 
     def get_url(self, url):
 
