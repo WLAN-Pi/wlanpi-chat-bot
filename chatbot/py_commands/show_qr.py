@@ -12,7 +12,8 @@ class ShowQr(Command):
         super().__init__(telegram_object, conf_obj)
 
         self.command_name = "show_qr"
-    
+        self.ssid = ""
+        self.passphrase = ""    
     
     def get_wifi_qrcode(self, ssid, passphrase):
         qrcode_spec = "WIFI:S:{};T:WPA;P:{};;".format(ssid, passphrase)
@@ -41,8 +42,8 @@ class ShowQr(Command):
         cmd = f"grep -E '^ssid|^wpa_passphrase' {hostapd_cfg_file} | cut -d '=' -f2"
 
         try:
-            ssid, passphrase = subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL).decode().strip().split("\n")
-            return self.get_wifi_qrcode(ssid, passphrase)
+            self.ssid, self.passphrase = subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL).decode().strip().split("\n")
+            return self.get_wifi_qrcode(self.ssid, self.passphrase)
 
         except Exception as e:
             print(e)
@@ -79,6 +80,6 @@ Is the WLAN Pi in the correct mode? (must be in mode which uses the AP feature s
         # read in the file as binary
         if qr_file:
             # return as dict to signa non-std data type (not str or list)
-            status_update = { "type": "image", "filename": qr_file, "caption": "Wi-Fi QR Code"}
+            status_update = { "type": "image", "filename": qr_file, "caption": f"Wi-Fi QR Code (SSID = {self.ssid}, Passphrase = {self.passphrase}"}
 
         return self._render(status_update)
