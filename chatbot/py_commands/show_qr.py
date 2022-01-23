@@ -49,6 +49,22 @@ class ShowQr(Command):
             pass
 
         return None
+    
+    def help(self):
+        """
+        Return the help page for this command
+        """
+        short_msg = "Show the QR code for SSID in the current mode"
+        long_msg = (
+            """This command shows a QR code that can be scanned with a smartphone (or similar) to connect to the SSID that is currently being broadcast. 
+    
+The availability of the SSID is dependant on the current mode of the WLAN Pi."""
+        )
+
+        if self.display_mode == "compact":
+            return short_msg
+        else:
+            return long_msg
 
 
     def run(self, args_list):
