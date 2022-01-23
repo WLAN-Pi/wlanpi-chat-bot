@@ -80,6 +80,6 @@ Is the WLAN Pi in the correct mode? (must be in mode which uses the AP feature s
         # read in the file as binary
         if qr_file:
             # return as dict to signa non-std data type (not str or list)
-            status_update = { "type": "image", "filename": qr_file, "caption": f"Wi-Fi QR Code (SSID = {self.ssid}, Passphrase = {self.passphrase}"}
+            status_update = { "type": "image", "filename": qr_file, "caption": f"Wi-Fi QR Code\nSSID = {self.ssid}\nPassphrase = {self.passphrase}"}
 
         return self._render(status_update)
