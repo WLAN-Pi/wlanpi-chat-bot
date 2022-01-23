@@ -72,22 +72,22 @@ Further reading on executing modules with Python at <https://docs.python.org/3/l
 New environment?
 
 ```
-cd <root of repo>
+cd ~/wlanpi-chat-bot
 python3 -m venv venv
 source venv/bin/activate
 pip install -U pip setuptools wheel
 pip install -r requirements.txt
 sudo systemctl stop wlanpi-chat-bot
-sudo systemctl status wlanpi-chat-bot
+sudo systemctl status wlanpi-chat-bot --no-pager
 sudo venv/bin/python3 -m chatbot
 ```
 
 Is your development environment already setup?
 
 ```
-cd <root of repo>
+cd ~/wlanpi-chat-bot
 source venv/bin/activate
 sudo systemctl stop wlanpi-chat-bot
-sudo systemctl status wlanpi-chat-bot
+sudo systemctl status wlanpi-chat-bot --no-pager
 sudo venv/bin/python3 -m chatbot
 ```
