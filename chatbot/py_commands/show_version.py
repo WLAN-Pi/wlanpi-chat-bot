@@ -11,6 +11,21 @@ class ShowVersion(Command):
         super().__init__(telegram_object, conf_obj)
 
         self.command_name = "show_ver"
+    
+    def help(self):
+        """
+        Return the help page for this command
+        """
+        short_msg = "Show version of WLAN Pi image and chat-bot"
+        long_msg = (
+            """Shows the version of WLAN Pi image and chat-bot module running on the WLAN Pi
+Syntax: show ver"""
+        )
+
+        if self.display_mode == "compact":
+            return short_msg
+        
+        return long_msg
 
     def run(self, args_list):
 

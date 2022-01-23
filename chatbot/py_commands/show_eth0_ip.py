@@ -17,7 +17,8 @@ class ShowEth0Ip(Command):
         """
         short_msg = "Show the IP and duplex/speed for eth0"
         long_msg = (
-            """show eth0-ip: This command shows the IP, subnet mask, DNS servers, DHCP server and duplex/speed information for eth0"""
+            """Shows the IP, subnet mask, DNS servers, DHCP server and duplex/speed information for eth0
+Syntax: show eth0-ip"""
         )
 
         if self.display_mode == "compact":

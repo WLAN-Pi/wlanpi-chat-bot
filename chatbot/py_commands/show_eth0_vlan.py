@@ -16,7 +16,8 @@ class ShowEth0Vlan(Command):
         """
         short_msg = "Show the VLAN info for eth0"
         long_msg = (
-            """show eth0-vlan: This command shows the VLAN information for eth0"""
+            """Shows the VLAN information for eth0
+Syntax: show eth0-vlan"""
         )
 
         if self.display_mode == "compact":

@@ -11,6 +11,22 @@ class ShowSummary(Command):
         super().__init__(telegram_object, conf_obj)
 
         self.command_name = "show_summary"
+    
+    def help(self):
+        """
+        Return the help page for this command
+        """
+        short_msg = "Show WLAN Pi hardware status"
+        long_msg = (
+            """Shows a summary of the WLAN Pi hardware status including CPU load, memoery used, storage use and CPU temperature
+Syntax: show summary"""
+        )
+
+        if self.display_mode == "compact":
+            return short_msg
+        
+        return long_msg
+    
 
     def run(self, args_list):
 

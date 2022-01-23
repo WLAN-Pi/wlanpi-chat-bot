@@ -11,6 +11,21 @@ class ShowWlanInterfaces(Command):
 
         self.command_name = "show_wlan-interfaces"
     
+    def help(self):
+        """
+        Return the help page for this command
+        """
+        short_msg = "Show WLAN interfaces information"
+        long_msg = (
+            """Shows information about the WLAN interfaces on the WLAN Pi, including interface names, mode, SSID, channel and frequency
+Syntax: show_wlan-interfaces"""
+        )
+
+        if self.display_mode == "compact":
+            return short_msg
+        
+        return long_msg
+    
     def channel_lookup(self, freq_mhz):
         '''
         Converts frequency (MHz) to channel number
