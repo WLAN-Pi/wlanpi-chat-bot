@@ -253,7 +253,15 @@ def main():
                 t.long_polling_timeout = LONG_POLLING_TIMEOUT
             
             script_logger.debug("Checking for messages (long poll start).")
-            updates = t.get_updates(last_update_id)
+            try:
+                updates = t.get_updates(last_update_id)
+            except KeyboardInterrupt:
+                sys.exit()
+            # note: without "Exception" below, cannot ctrl-c when debugging code 
+            except Exception:
+                script_logger.error("Looks like we hit a timeout on long polling wait")
+                # go back to top of main event loop
+                continue
 
             # ignore any cached cmds if received and flush is signalled
             if flush_telegram_msgs and len(updates["result"]) > 0:
