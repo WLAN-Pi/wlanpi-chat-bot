@@ -16,7 +16,7 @@
 export DH_VIRTUALENV_INSTALL_ROOT=/opt
 export PYBUILD_NAME=wlanpi-chat-bot
 SNAKE=/usr/bin/python3
-EXTRA_REQUIREMENTS=--upgrade-pip --preinstall "setuptools>=57" --extras=default
+EXTRA_REQUIREMENTS=--upgrade-pip --preinstall "setuptools>=57" --preinstall "wheel" --extras=default
 PACKAGE=$(shell dh_listpackages)
 VERSION=$(shell parsechangelog | grep ^Version: | sed -re 's/[^0-9]+([^-]+).*/\1/')
 
