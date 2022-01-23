@@ -11,6 +11,21 @@ class ShowInterfaces(Command):
 
         self.command_name = "show_interfaces"
     
+    def help(self):
+        """
+        Return the help page for this command
+        """
+        short_msg = "Show a WLAN Pi interface summary"
+        long_msg = (
+            """Shows a summary of all WLAN Pi interfaces, inlcuding their status
+Syntax: show interfaces"""
+        )
+
+        if self.display_mode == "compact":
+            return short_msg
+        
+        return long_msg
+    
 
     def run(self, args_list):
 

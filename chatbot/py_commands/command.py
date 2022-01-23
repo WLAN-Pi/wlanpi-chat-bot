@@ -67,9 +67,11 @@ class Command:
             return data
         elif isinstance(data, list):
             return data
+        elif isinstance(data, dict):
+            return data
         else:
             raise ValueError(
-                "Unsupported data type passed to _render_compact: {}".format(type(data))
+                "Unsupported data type passed to _render: {}".format(type(data))
             )
 
     def run_ext_cmd(self, progress_msg, cmd_string):
@@ -131,6 +133,7 @@ from .show_eth0_vlan import ShowEth0Vlan
 from .show_eth0_ip import ShowEth0Ip
 from .show_interfaces import ShowInterfaces
 from .show_mode import ShowMode
+from .show_qr import ShowQr
 from .show_status import ShowStatus
 from .show_summary import ShowSummary
 from .show_time import ShowTime

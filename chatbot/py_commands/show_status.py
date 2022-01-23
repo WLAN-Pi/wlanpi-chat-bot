@@ -10,6 +10,21 @@ class ShowStatus(Command):
         super().__init__(telegram_object, conf_obj)
 
         self.command_name = "show_status"
+    
+    def help(self):
+        """
+        Return the help page for this command
+        """
+        short_msg = "Show a summary of the  WLAN Pi operational status"
+        long_msg = (
+            """Shows a summary of the  WLAN Pi operational status including hostname, uptime and interface IP addreses
+Syntax: show status"""
+        )
+
+        if self.display_mode == "compact":
+            return short_msg
+        
+        return long_msg
 
     def run(self, args_list):
 

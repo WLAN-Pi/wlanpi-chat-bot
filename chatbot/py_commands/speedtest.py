@@ -46,12 +46,12 @@ class Speedtest(Command):
         """
         Return the help page for this command
         """
-        short_msg = "speedtest: Run an Ookla speedtest from probe."
-        long_msg = """speedtest: This command runs a speedtest to the Ookla speedtest service from the probe.
+        short_msg = "Runs an Ookla speedtest from the WLAN Pi"
+        long_msg = """This command runs a speedtest to the Ookla speedtest service from the WLAN Pi.
 
-It provides the upload and download speed from the probe to the Internet. 
+It provides the upload and download speed from the WLAN Pi to the Internet. (This test requires your WLAN Pi to have Internet access)
 
-(This test requires your probe to have Internet access)"""
+Syntax: speedtest"""
 
         if self.display_mode == "compact":
             return short_msg

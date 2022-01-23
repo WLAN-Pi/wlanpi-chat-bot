@@ -10,6 +10,20 @@ class ShowEth0Vlan(Command):
 
         self.command_name = "show_eth0-vlan"
     
+    def help(self):
+        """
+        Return the help page for this command
+        """
+        short_msg = "Show the VLAN info for eth0"
+        long_msg = (
+            """Shows the VLAN information for eth0
+Syntax: show eth0-vlan"""
+        )
+
+        if self.display_mode == "compact":
+            return short_msg
+        
+        return long_msg
 
     def run(self, args_list):
 
