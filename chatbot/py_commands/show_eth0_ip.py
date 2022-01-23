@@ -11,6 +11,20 @@ class ShowEth0Ip(Command):
 
         self.command_name = "show_eth0-ip"
     
+    def help(self):
+        """
+        Return the help page for this command
+        """
+        short_msg = "Show the IP and duplex/speed for eth0"
+        long_msg = (
+            """show eth0-ip: This command shows the IP, subnet mask, DNS servers, DHCP server and duplex/speed information for eth0"""
+        )
+
+        if self.display_mode == "compact":
+            return short_msg
+        
+        return long_msg
+    
 
     def run(self, args_list):
 
