@@ -23,11 +23,21 @@ VERSION=$(shell parsechangelog | grep ^Version: | sed -re 's/[^0-9]+([^-]+).*/\1
 DH_VENV_ARGS=--builtin-venv --python=$(SNAKE) $(EXTRA_REQUIREMENTS) \
             --extra-pip-arg=--progress-bar=pretty
 DH_VENV_DIR=debian/$(PACKAGE)$(DH_VIRTUALENV_INSTALL_ROOT)/$(PACKAGE)
+PILLOW_SPEC=$(shell grep Pillow== setup.py | cut -f1 -d ",")
 SDIST_DIR=debian/$(PACKAGE)-$(VERSION)
 PKG_PREFIX=debian/wlanpi-chat-bot
 
 %:
 	dh $@ --with python3,python-virtualenv --buildsystem=pybuild
 
+.PHONY: override_dh_virtualenv override_dh_strip override_dh_shlibdeps
+
 override_dh_virtualenv:
 	dh_virtualenv $(DH_VENV_ARGS)
+	$(DH_VENV_DIR)/bin/python $(DH_VENV_DIR)/bin/pip install -I --no-binary Pillow $(PILLOW_SPEC)
+
+override_dh_strip:
+	dh_strip --exclude=cffi --exclude=_imaging --exclude=libtiff
+	
+override_dh_shlibdeps:
+	dh_shlibdeps -X/Pillow.libs/ -X/PIL/ 
