@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# "wlanpi-chat-bot" postinst script
+#
+
+# change config file ownership to service user
+chown wlanpi-chat-bot /etc/wlanpi-chat-bot/config.json
+
+exit 0
