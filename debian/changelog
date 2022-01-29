@@ -1,4 +1,11 @@
-wlanpi-chat-bot (1.0.15-3) unstable; urgency=medium
+wlanpi-chat-bot (1.0.16) unstable; urgency=medium
+
+  * fix config file access permission for service user
+  * update debian build for bullseye only
+
+ -- Nigel Bowden <wifinigel@gmail.com>  Sat, 29 Jan 2022 16:55:15 +0000
+ 
+ wlanpi-chat-bot (1.0.15-3) unstable; urgency=medium
 
   * add missing wheel pre-install statement rules file
   * fix tar/ar typo in control file
