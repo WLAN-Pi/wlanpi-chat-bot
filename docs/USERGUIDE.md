@@ -26,6 +26,10 @@ Creating a Telegram account is an easy process. You need to download the Telegra
 
  (Note: you will need a phone number to complete the free sign-up for Telegram)
 
+__NOTE__: For the chat-bot to work, you must ensure you have configured a username in your Telegram account profile. Without this, your bot will not operate. This is required for one of the security mechanisms used by the bot. The location of this field is shown in the graphic below. If this field says "Add username", then you must add yourself a username to ensure that the chat-bot can operate. 
+
+![Screenshot](images/username.png)
+
 ### Telegram
 
 Once you have your Telegram account, you'll need to create a Telegram bot to talk with the WLAN Pi. This is a one-time operation. Once completed, you will be able to access the WAN Pi via this bot each time your WLAN Pi connects to the Interet.
@@ -47,7 +51,7 @@ To configure the WLAN Pi to talk with the Telegram chat-bot, we need to configur
 sudo quickstart-chat-bot
 ```
 
-Follow the on-screen instructions t configire your app key and restart chat-bot.
+Follow the on-screen instructions to configure your app key and restart chat-bot.
 
 2. SSH to the WLAN pi and edit the file `/etc/wlanpi-chat-bot/config.json`. Enter your API key in to the the `"bot_token"` field:
 
@@ -82,7 +86,9 @@ Create a file called `wlanpi_bot.key` in the `boot` partition. Create the file w
 
 Once the WLAN Pi boots up and reads the file from the boot partition, the API key is added to the WLAN Pi bot config file and removed from the boot partition for security purposes.
 
-3. Once the API key is in-place via one of the two methods outlined above, its time to wake up the bot and make sure you can send it messages.
+### Waking up the bot
+
+Once the API key is in-place via one of the three methods outlined above, its time to wake up the bot and make sure you can send it messages.
 
 With the WLAN Pi connected to the Internet, open up your Telegram client and send a message to the bot. You can try : `hi`. You will likely get no response to your first message. Don't worry...send a second message: `hi`. You should now receive a response. Your bot is now keyed to you user ID  and username and will respond only to you. You will not need to repeat this wake-up process - each time you switch on the WLAN Pi and it is connected to the Internet, it will establish comms with your Telegram client.
 
