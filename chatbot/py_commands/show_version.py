@@ -42,7 +42,7 @@ Syntax: show ver"""
                 (name, value) = line.split("=")
                 if name == "VERSION":
                     version = value.strip()
-                    version_string = "WLAN Pi: " + version[1:-1]
+                    version_string = f"WLAN Pi: ${version}"
                     break
         else:
             version_string = "WLAN Pi: unknown"
