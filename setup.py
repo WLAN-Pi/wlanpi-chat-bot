@@ -37,7 +37,7 @@ setup(
     platforms=["linux"],
     packages=find_packages(),
     install_requires=[
-        "requests==2.27.1",
+        "requests==2.28.2",
         "timeout_decorator==0.5.0",
         "psutil==5.9.0",
         "netifaces==0.11.0",
