@@ -76,6 +76,12 @@ To ensure the API key is read correctly, restart the chat-bot process on the WLA
 wlanpi@wlanpi:~$ sudo systemctl restart wlanpi-chat-bot
 ```
 
+If you want to start chatbot automatically after wlanpi boot then you need make:
+
+```
+sudo systemctl enable wlanpi-chat-bot
+```
+
 3. For a completely headless configuration, it's possible to add a file to the micro-SD card that runs the WLAN Pi image. Pop the SD card out of the WLAN Pi and using a SD card-to-USB adapter, access the SD card via a USB port on your laptop or MAC. There is a readable partition called "boot" on the SD card where the chat-bot API key may be placed. 
 
 Create a file called `wlanpi_bot.key` in the `boot` partition. Create the file with a plain text editor and add a single line that contains just the API key that was provided during bot creation. Here are a couple of screen-shots that show the file created on a Windows machine and a Mac:
