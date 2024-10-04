@@ -24,7 +24,7 @@ class Speedtest(Command):
 
         # perform speedtest
         speedtest_info = []
-        speedtest_cmd = "speedtest --accept-license | egrep -w \"Testing from|Download|Upload\" | sed -r 's/Testing from.*?\(/My IP: /g; s/\)\.\.\.//g; s/Download/D/g; s/Upload/U/g; s/bit\/s/bps/g'"
+        speedtest_cmd = "speedtest --accept-license | egrep -w \"Testing from|Download|Upload|Result\" | sed -r 's/Testing from.*?\(/My IP: /g; s/\)\.\.\.//g; s/Download/D/g; s/Upload/U/g; s/bit\/s/bps/g'"
 
         try:
             speedtest_output = (
