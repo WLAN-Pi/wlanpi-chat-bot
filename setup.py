@@ -43,7 +43,7 @@ setup(
         "netifaces==0.11.0",
         "PyYAML==6.0",
         "Pillow==9.0.1",
-        "qrcode==7.3.1",
+        "qrcode==7.4.2",
     ],
     extras_require=extras,
     project_urls={
